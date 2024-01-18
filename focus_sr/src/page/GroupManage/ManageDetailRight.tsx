@@ -95,9 +95,15 @@ export const ManageDetailRight: React.FC<any> = React.forwardRef<any, any>(
     };
 
     const [switchChecked, setSwitchChecked] = React.useState(
-      Array(9).fill(false)
+      Array(8).fill(false)
     );
     const [selectAuthority, setSelectAuthority] = React.useState<number>(8);
+
+    const handleSwitch = (idx: number) => {
+      const newSwitchChecked = [...switchChecked];
+      newSwitchChecked[idx] = !switchChecked[idx];
+      setSwitchChecked(newSwitchChecked);
+    };
 
     return (
       <div className={className} ref={ref}>
@@ -177,9 +183,6 @@ export const ManageDetailRight: React.FC<any> = React.forwardRef<any, any>(
                           border: "1px solid #E5E7EB",
                           background: "#F9FAFB",
                         }}
-                        onClick={() => {
-                          setSelectAuthority(idx);
-                        }}
                       >
                         {Object.keys(item).map((key) => (
                           <Typography
@@ -204,6 +207,8 @@ export const ManageDetailRight: React.FC<any> = React.forwardRef<any, any>(
                           }}
                         >
                           <Switch
+                            checked={switchChecked[idx]}
+                            onChange={() => handleSwitch(idx)}
                             sx={{
                               "& .MuiSwitch-track": {
                                 borderRadius: "999px",
@@ -238,6 +243,9 @@ export const ManageDetailRight: React.FC<any> = React.forwardRef<any, any>(
                           />
                           <KeyboardArrowDownOutlinedIcon
                             sx={{ width: "20px", height: "20px" }}
+                            onClick={() => {
+                              setSelectAuthority(idx);
+                            }}
                           />
                         </Box>
                       </Stack>
@@ -252,9 +260,6 @@ export const ManageDetailRight: React.FC<any> = React.forwardRef<any, any>(
                           border: "1px solid #E5E7EB",
                           borderRadius: "12px",
                           padding: "0 24px 24px 24px",
-                        }}
-                        onClick={() => {
-                          setSelectAuthority(9);
                         }}
                       >
                         <Stack
@@ -287,6 +292,8 @@ export const ManageDetailRight: React.FC<any> = React.forwardRef<any, any>(
                             }}
                           >
                             <Switch
+                              checked={switchChecked[idx]}
+                              onChange={() => handleSwitch(idx)}
                               sx={{
                                 "& .MuiSwitch-track": {
                                   borderRadius: "999px",
@@ -321,6 +328,9 @@ export const ManageDetailRight: React.FC<any> = React.forwardRef<any, any>(
                             />
                             <KeyboardArrowUpOutlinedIcon
                               sx={{ width: "20px", height: "20px" }}
+                              onClick={() => {
+                                setSelectAuthority(9);
+                              }}
                             />
                           </Box>
                         </Stack>

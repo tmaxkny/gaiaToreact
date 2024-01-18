@@ -5,6 +5,7 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
+  Snackbar,
   Stack,
   Typography,
 } from "@mui/material";
@@ -12,13 +13,29 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CheckIcon from "@mui/icons-material/Check";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const CreateTitle: React.FC<any> = React.forwardRef<any, any>(
   ({ className, onMoveDetail, children }, ref) => {
     const [isVisible, setIsVisible] = React.useState(false);
+    const [isVisible2, setIsVisible2] = React.useState(false);
     const [isDisable, setIsDisable] = React.useState(false);
     const [createDialogOpen, setCreateDialogOpen] = React.useState(false);
     const [cancelDialogOpen, setCancelDialogOpen] = React.useState(false);
+
+    const handleVisible = () => {
+      setIsVisible(true);
+      setTimeout(() => {
+        setIsVisible(false);
+      }, 2000);
+    };
+
+    const handleVisible2 = () => {
+      setIsVisible2(true);
+      setTimeout(() => {
+        setIsVisible2(false);
+      }, 2000);
+    };
 
     return (
       <div className={className} ref={ref}>
@@ -48,46 +65,6 @@ const CreateTitle: React.FC<any> = React.forwardRef<any, any>(
               기술문의 상세
             </Typography>
           </Stack>
-          {isVisible && (
-            <Stack
-              direction="row"
-              display="hidden"
-              sx={{
-                height: "48px",
-                width: "fit-content",
-                gap: "12px",
-                border: "1px solid #E5E7EB",
-                background: "#F3FAF7",
-                borderRadius: "5px",
-                alignItems: "center",
-                boxShadow: "0px 2px 4px 0px rgba(0, 0, 0, 0.12)",
-                padding: "1px 24px 1px 1px",
-              }}
-              alignItems="center"
-            >
-              <Box
-                sx={{
-                  width: "6px",
-                  height: "46px",
-                  borderRadius: "4px 0px 0px 4px",
-                  background: "#31C48D",
-                }}
-              />
-              <CheckCircleIcon
-                sx={{ height: "24px", width: "24px", color: "#31C48D" }}
-              />
-              <Typography
-                sx={{
-                  fontSize: "18px",
-                  fontWeight: "600",
-                  lineHeight: "24px",
-                  color: "#31C48D",
-                }}
-              >
-                이슈로 등록되었습니다.
-              </Typography>
-            </Stack>
-          )}
           <Stack direction="row" sx={{ gap: "16px" }}>
             <Button
               sx={{
@@ -188,6 +165,7 @@ const CreateTitle: React.FC<any> = React.forwardRef<any, any>(
             </Button>
             <Button
               onClick={() => {
+                handleVisible();
                 setCreateDialogOpen(false);
               }}
               sx={{
@@ -282,6 +260,7 @@ const CreateTitle: React.FC<any> = React.forwardRef<any, any>(
                 color: "#FFFFFF",
               }}
               onClick={() => {
+                handleVisible2();
                 setCancelDialogOpen(false);
               }}
             >
@@ -289,6 +268,66 @@ const CreateTitle: React.FC<any> = React.forwardRef<any, any>(
             </Button>
           </DialogActions>
         </Dialog>
+        <Snackbar
+          ContentProps={{
+            sx: {
+              background: "rgba(0, 197, 114, 0.70)",
+            },
+          }}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          open={isVisible}
+          onClose={() => {
+            setIsVisible(false);
+          }}
+          message={
+            <Box sx={{ display: "flex", flexDirection: "row", gap: "8px" }}>
+              <Typography
+                sx={{
+                  fontSize: "14px",
+                  fontWeight: "400",
+                  lineHeight: "18px",
+                  color: "#FFFFFF",
+                  minWidth: "260px",
+                }}
+              >
+                등록 완료되었습니다.
+              </Typography>
+              <ClearIcon
+                sx={{ width: "20px", height: "20px", color: "#FFFFFF" }}
+              />
+            </Box>
+          }
+        />
+        <Snackbar
+          ContentProps={{
+            sx: {
+              background: "rgba(0, 197, 114, 0.70)",
+            },
+          }}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          open={isVisible2}
+          onClose={() => {
+            setIsVisible2(false);
+          }}
+          message={
+            <Box sx={{ display: "flex", flexDirection: "row", gap: "8px" }}>
+              <Typography
+                sx={{
+                  fontSize: "14px",
+                  fontWeight: "400",
+                  lineHeight: "18px",
+                  color: "#FFFFFF",
+                  minWidth: "260px",
+                }}
+              >
+                등록 취소가 완료 되었습니다.
+              </Typography>
+              <ClearIcon
+                sx={{ width: "20px", height: "20px", color: "#FFFFFF" }}
+              />
+            </Box>
+          }
+        />
       </div>
     );
   }

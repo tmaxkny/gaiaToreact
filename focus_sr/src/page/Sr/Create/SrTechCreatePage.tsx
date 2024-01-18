@@ -2,6 +2,7 @@ import { Stack } from "@mui/material";
 import DetailHeader from "../Detail/DetailHeader";
 import DetailPageHeader2 from "../Detail/DetailHeader2";
 import CreateTitle from "./CreateTitle";
+import CommentForm from "./CommentForm";
 import React from "react";
 
 export const SrTechCreatePage: React.FC = () => {
@@ -10,6 +11,7 @@ export const SrTechCreatePage: React.FC = () => {
       <CreateTitle />
       <DetailHeader />
       <DetailPageHeader2 />
+      <CommentForm />
     </Stack>
   );
 };

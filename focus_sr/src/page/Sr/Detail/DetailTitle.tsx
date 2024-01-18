@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Snackbar, Stack, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
 import CreateIcon from "@mui/icons-material/Create";
@@ -45,37 +45,6 @@ const DetailTitle: React.FC<any> = React.forwardRef<any, any>(
               기술문의 상세
             </Typography>
           </Stack>
-          {isVisible && (
-            <Stack
-              direction="row"
-              sx={{
-                height: "54px",
-                width: "fit-content",
-                gap: "8px",
-                background: "rgba(0, 197, 114, 0.70)",
-                borderRadius: "4px",
-                alignItems: "center",
-                padding: "18px 20px",
-                boxSizing: "border-box",
-              }}
-              alignItems="center"
-            >
-              <Typography
-                sx={{
-                  fontSize: "14px",
-                  fontWeight: "400",
-                  lineHeight: "18px",
-                  color: "#FFFFFF",
-                  minWidth: "260px",
-                }}
-              >
-                {`등록완료 되었습니다.`}
-              </Typography>
-              <ClearIcon
-                sx={{ width: "20px", height: "20px", color: "#FFFFFF" }}
-              />
-            </Stack>
-          )}
           <Stack direction="row" sx={{ gap: "16px" }}>
             <Button
               startIcon={
@@ -123,6 +92,36 @@ const DetailTitle: React.FC<any> = React.forwardRef<any, any>(
             </Button>
           </Stack>
         </Stack>
+        <Snackbar
+          ContentProps={{
+            sx: {
+              background: "rgba(0, 197, 114, 0.70)",
+            },
+          }}
+          anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+          open={isVisible}
+          onClose={() => {
+            setIsVisible(false);
+          }}
+          message={
+            <Box sx={{ display: "flex", flexDirection: "row", gap: "8px" }}>
+              <Typography
+                sx={{
+                  fontSize: "14px",
+                  fontWeight: "400",
+                  lineHeight: "18px",
+                  color: "#FFFFFF",
+                  minWidth: "260px",
+                }}
+              >
+                등록완료 되었습니다.
+              </Typography>
+              <ClearIcon
+                sx={{ width: "20px", height: "20px", color: "#FFFFFF" }}
+              />
+            </Box>
+          }
+        />
       </div>
     );
   }

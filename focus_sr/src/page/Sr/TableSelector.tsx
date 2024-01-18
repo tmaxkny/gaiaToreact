@@ -19,6 +19,7 @@ import {
   Checkbox,
   TableRow,
   TableBody,
+  Snackbar,
 } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import SearchIcon from "@mui/icons-material/Search";
@@ -41,6 +42,7 @@ const TableSelector: React.FC<any> = React.forwardRef<any, any>(
     const [managerList, setManagerList] = React.useState<number[]>([]);
     const [drawerButtonDiabled, setDrawerButtonDiabled] = React.useState(true);
     const [isVisible, setIsVisible] = React.useState(false);
+    const [isVisible2, setIsVisible2] = React.useState(false);
 
     const headerCellStyle = {
       backgroundColor: "#F3F4F6",
@@ -141,6 +143,13 @@ const TableSelector: React.FC<any> = React.forwardRef<any, any>(
       setIsVisible(true);
       setTimeout(() => {
         setIsVisible(false);
+      }, 2000);
+    };
+
+    const handleVisible2 = () => {
+      setIsVisible2(true);
+      setTimeout(() => {
+        setIsVisible2(false);
       }, 2000);
     };
 
@@ -536,6 +545,7 @@ const TableSelector: React.FC<any> = React.forwardRef<any, any>(
                   color: "#FFFFFF",
                 }}
                 onClick={() => {
+                  handleVisible2();
                   setOpenDialog(false);
                 }}
               >
@@ -708,39 +718,68 @@ const TableSelector: React.FC<any> = React.forwardRef<any, any>(
               >
                 등록하기
               </Button>
-              {isVisible && (
-                <Stack
-                  direction="row"
-                  sx={{
-                    height: "54px",
-                    width: "fit-content",
-                    gap: "8px",
-                    background: "rgba(0, 197, 114, 0.70)",
-                    borderRadius: "4px",
-                    alignItems: "center",
-                    padding: "18px 20px",
-                    boxSizing: "border-box",
-                  }}
-                  alignItems="center"
-                >
-                  <Typography
-                    sx={{
-                      fontSize: "14px",
-                      fontWeight: "400",
-                      lineHeight: "18px",
-                      color: "#FFFFFF",
-                      minWidth: "260px",
-                    }}
-                  >
-                    {`담당자 지정이 완료되었습니다.`}
-                  </Typography>
-                  <ClearIcon
-                    sx={{ width: "20px", height: "20px", color: "#FFFFFF" }}
-                  />
-                </Stack>
-              )}
             </Stack>
           </Drawer>
+          <Snackbar
+            ContentProps={{
+              sx: {
+                background: "rgba(0, 197, 114, 0.70)",
+              },
+            }}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            open={isVisible}
+            onClose={() => {
+              setIsVisible(false);
+            }}
+            message={
+              <Box sx={{ display: "flex", flexDirection: "row", gap: "8px" }}>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    fontWeight: "400",
+                    lineHeight: "18px",
+                    color: "#FFFFFF",
+                    minWidth: "260px",
+                  }}
+                >
+                  담당자 지정이 완료되었습니다.
+                </Typography>
+                <ClearIcon
+                  sx={{ width: "20px", height: "20px", color: "#FFFFFF" }}
+                />
+              </Box>
+            }
+          />
+          <Snackbar
+            ContentProps={{
+              sx: {
+                background: "rgba(0, 197, 114, 0.70)",
+              },
+            }}
+            anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+            open={isVisible2}
+            onClose={() => {
+              setIsVisible2(false);
+            }}
+            message={
+              <Box sx={{ display: "flex", flexDirection: "row", gap: "8px" }}>
+                <Typography
+                  sx={{
+                    fontSize: "14px",
+                    fontWeight: "400",
+                    lineHeight: "18px",
+                    color: "#FFFFFF",
+                    minWidth: "260px",
+                  }}
+                >
+                  처리완료 되었습니다.
+                </Typography>
+                <ClearIcon
+                  sx={{ width: "20px", height: "20px", color: "#FFFFFF" }}
+                />
+              </Box>
+            }
+          />
         </Stack>
       </div>
     );

@@ -1,38 +1,38 @@
 {
-    "Content": [
+  "Content": [
+    {
+      "Name": "className",
+      "Type": [
         {
-            "Name": "className",
-            "Type": [
-                {
-                    "isArray": false,
-                    "isObject": false,
-                    "type": "string"
-                }
-            ],
-            "Control": {
-                "type": "TextField"
-            },
-            "Basic": 1,
-            "DefaultValue": "",
-            "InitialValue": ""
-        },
-        {
-            "Name": "title",
-            "Type": [
-                {
-                    "isArray": false,
-                    "isObject": false,
-                    "type": "string"
-                }
-            ],
-            "Basic": 1,
-            "Control": {
-                "type": "TextField"
-            },
-            "DefaultValue": "",
-            "InitialValue": ""
+          "isArray": false,
+          "isObject": false,
+          "type": "string"
         }
-    ],
-    "Style": [],
-    "Event": []
+      ],
+      "Control": {
+        "type": "TextField"
+      },
+      "Basic": 1,
+      "DefaultValue": "",
+      "InitialValue": ""
+    },
+    {
+      "Name": "title",
+      "Type": [
+        {
+          "isArray": false,
+          "isObject": false,
+          "type": "string"
+        }
+      ],
+      "Basic": 1,
+      "Control": {
+        "type": "TextField"
+      },
+      "DefaultValue": "",
+      "InitialValue": ""
+    }
+  ],
+  "Style": [],
+  "Event": []
 }

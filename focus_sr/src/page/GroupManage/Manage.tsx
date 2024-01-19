@@ -17,7 +17,7 @@ import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
 
 export const Manage: React.FC<any> = React.forwardRef<any, any>(
-  ({ className, children, groupList }, ref) => {
+  ({ className, children }, ref) => {
     const [fakeGroupList, setFakeGroupList] = React.useState([
       {
         id: 1,
@@ -56,13 +56,12 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
 
     const [groupName, setGroupName] = React.useState("");
     const [select, setSelect] = React.useState<string>("");
-    const [openDeleteDialog, setOpenDeleteDialog] = React.useState(true);
+    const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
     const [anchorElement, setAnchorElement] =
       React.useState<HTMLElement | null>(null);
     const isOpened = Boolean(anchorElement);
     const [formAble, setFormAble] = React.useState(false);
 
-    const submitNewGroup = () => {};
     const handleSelected = (idx: string) => {
       setSelect(idx);
     };
@@ -78,7 +77,7 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
             gap: "16px",
           }}
         >
-          {groupList ? (
+          {!fakeGroupList ? (
             <Typography
               sx={{
                 fontSize: "16px",

@@ -14,7 +14,7 @@ import Title from "./page/Home/Title";
 function App() {
   return (
     <>
-      <SrTechPage />
+      <Manage />
     </>
   );
 }

@@ -10,11 +10,14 @@ import Category from "./page/Onboarding/Onboarding02";
 import Type from "./page/Onboarding/Onboarding03";
 import Confirmed from "./page/Onboarding/Onboarding04";
 import Title from "./page/Home/Title";
+import CommentList from "./page/Sr/Detail/CommentList";
+import PromotionPage from "./page/Promotion/PromotionPage";
+import PromotionRegister from "./page/Promotion/Create/PromotionRegister";
 
 function App() {
   return (
     <>
-      <Manage />
+      <PromotionRegister />
     </>
   );
 }

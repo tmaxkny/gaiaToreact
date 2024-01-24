@@ -16,6 +16,8 @@ import { FiberManualRecord } from "@mui/icons-material";
 export const SRTable: React.FC<any> = React.forwardRef<any, any>(
   ({ className, onMoveDetail }, ref) => {
     const [page, setPage] = React.useState(0);
+    const [checkboxs, setCheckboxs] = React.useState<number[]>([]);
+    const [checkboxAll, setCheckboxAll] = React.useState(false);
 
     type TStatusColor = {
       [key: string]: {
@@ -179,11 +181,29 @@ export const SRTable: React.FC<any> = React.forwardRef<any, any>(
       },
     ];
 
+    const tableLength = dummyData.length;
+
     const handlePageChange = (
       _event: React.ChangeEvent<unknown>,
       currentPage: number
     ) => {
       setPage(currentPage);
+    };
+
+    const handleCheckbox = (idx: number) => {
+      if (checkboxs.some((item) => item === idx)) {
+        const newCheckboxs = checkboxs.filter((item) => item !== idx);
+        setCheckboxs(newCheckboxs);
+      } else {
+        const newCheckboxs = [...checkboxs, idx];
+        setCheckboxs(newCheckboxs);
+      }
+    };
+
+    const handleCheckboxAll = () => {
+      if (checkboxAll) setCheckboxs([]);
+      else setCheckboxs([...Array(tableLength).keys()]);
+      setCheckboxAll(!checkboxAll);
     };
 
     return (
@@ -217,7 +237,12 @@ export const SRTable: React.FC<any> = React.forwardRef<any, any>(
                 }}
               >
                 <TableCell>
-                  <Checkbox />
+                  <Checkbox
+                    checked={checkboxs.length === tableLength}
+                    onClick={() => {
+                      handleCheckboxAll();
+                    }}
+                  />
                 </TableCell>
                 <TableCell>{`우선순위`}</TableCell>
                 <TableCell>{`심각도`}</TableCell>
@@ -236,11 +261,16 @@ export const SRTable: React.FC<any> = React.forwardRef<any, any>(
             </TableHead>
             <TableBody sx={{ "& .MuiTableCell-root": { ...cellStyle } }}>
               {dummyData &&
-                dummyData.map((item, index) => {
+                dummyData.map((item, idx) => {
                   return (
-                    <TableRow key={index} onClick={onMoveDetail}>
+                    <TableRow key={idx} onClick={onMoveDetail}>
                       <TableCell>
-                        <Checkbox />
+                        <Checkbox
+                          checked={checkboxs.some((item) => item === idx)}
+                          onClick={() => {
+                            handleCheckbox(idx);
+                          }}
+                        />
                       </TableCell>
                       <TableCell
                         sx={{

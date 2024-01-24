@@ -20,21 +20,21 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
   ({ className, children }, ref) => {
     const [fakeGroupList, setFakeGroupList] = React.useState([
       {
-        id: 1,
+        id: 0,
         title: "영업담당자",
         memberNum: "12",
         detailTitle: "고객 관리, 영업 관리, 프로모션 관리, SR 관리",
         isManager: false,
       },
       {
-        id: 2,
+        id: 1,
         title: "마케터",
         memberNum: "15",
         detailTitle: "제품 관리, 상품 관리, 판매/주문 관리, 매출 관리",
         isManager: true,
       },
       {
-        id: 3,
+        id: 2,
         title: "회계담당자",
         memberNum: "12",
         detailTitle: "매출 관리, 정산 관리",
@@ -60,7 +60,8 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
     const [anchorElement, setAnchorElement] =
       React.useState<HTMLElement | null>(null);
     const isOpened = Boolean(anchorElement);
-    const [formAble, setFormAble] = React.useState(false);
+    const [formAble, setFormAble] = React.useState(false); //새 직무그룹 추가를 누르면 생기는 폼
+    const [updateGroup, setUpdateGroup] = React.useState<number>();
 
     const handleSelected = (idx: string) => {
       setSelect(idx);
@@ -172,7 +173,7 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                       }}
                       onClick={() => {
                         const newGroup = {
-                          id: fakeGroupList.length + 1,
+                          id: fakeGroupList.length,
                           title: groupName,
                           memberNum: "0",
                           detailTitle: "지정된 접근 가능 메뉴 없음",
@@ -198,181 +199,292 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                     idx.toString() === select ? "#1C64F2" : "#111928";
                   const detailFontColor =
                     idx.toString() === select ? "#1C64F2" : "#6B7280";
-                  return (
-                    <Stack
-                      key={idx}
-                      sx={{
-                        flexDirection: "row",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        width: "600px",
-                        height: "96px",
-                        padding: "24px",
-                        border: `1px solid ${color}`,
-                        borderRadius: "6px",
-                        boxSizing: "border-box",
-                        "&:hover": {
-                          backgroundColor: "rgba(0, 0, 0, 0.04)",
-                        },
-                        background: background,
-                      }}
-                      onClick={() => {
-                        handleSelected(idx.toString());
-                      }}
-                    >
-                      <Box
+                  if (idx === updateGroup) {
+                    return (
+                      <Stack
+                        key={idx}
                         sx={{
-                          display: "flex",
-                          flexDirecton: "row",
-                          gap: "16px",
+                          flexDirection: "row",
+                          justifyContent: "space-between",
                           alignItems: "center",
+                          width: "600px",
+                          height: "96px",
+                          padding: "24px",
+                          border: "1px solid #D1D5DB",
+                          borderRadius: "6px",
+                          boxSizing: "border-box",
                         }}
                       >
-                        <PeopleOutlinedIcon
-                          sx={{ width: "32px", height: "32px", color: color }}
-                        />
                         <Box
                           sx={{
                             display: "flex",
-                            flexDirection: "column",
-                            gap: "2px",
+                            flexDirecton: "row",
+                            gap: "16px",
+                            alignItems: "center",
                           }}
                         >
+                          <PeopleOutlinedIcon
+                            sx={{ width: "32px", height: "32px" }}
+                          />
+                          <TextField
+                            placeholder="직무 그룹 이름을 입력해주세요(ex. 마케팅 팀)"
+                            value={groupName}
+                            onChange={(e) => {
+                              const newGroupName = e.target.value as string;
+                              setGroupName(newGroupName);
+                            }}
+                            /* onKeyDown={e => {
+                            if (e.key === 'Enter') {
+                                handleTableSubmit();
+                            }
+                        }} */
+
+                            InputProps={{
+                              sx: {
+                                width: "350px",
+                                height: "var(--spacing-40, 40px)",
+                                fontSize: "16px",
+                                fontWeight: "400px",
+                                lineHeight: "26px",
+                              },
+                            }}
+                          />
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            gap: "8px",
+                          }}
+                        >
+                          <Button
+                            sx={{
+                              width: "41px",
+                              height: "32px",
+                              border: "1px solid #A4CAFE",
+                              borderRadius: "4px",
+                              padding: "7px 10px",
+                              color: "#1C64F2",
+                              fontSize: "12px",
+                              fontWeight: "500",
+                              lineHeight: "18px",
+                            }}
+                            onClick={() => {
+                              setFormAble(false);
+                              setUpdateGroup(-1);
+                            }}
+                          >
+                            취소
+                          </Button>
+                          <Button
+                            sx={{
+                              width: "41px",
+                              height: "32px",
+                              background: "#1C64F2",
+                              borderRadius: "4px",
+                              padding: "7px 10px",
+                              color: "#FFFFFF",
+                              fontSize: "12px",
+                              fontWeight: "500",
+                              lineHeight: "18px",
+                            }}
+                            onClick={() => {
+                              const newGroup = fakeGroupList.map((item) =>
+                                item.id === idx
+                                  ? { ...item, title: groupName }
+                                  : item
+                              );
+                              setFakeGroupList(newGroup);
+                              setUpdateGroup(-1);
+                              setGroupName("");
+                            }}
+                          >
+                            저장
+                          </Button>
+                        </Box>
+                      </Stack>
+                    );
+                  } else {
+                    return (
+                      <Stack
+                        key={idx}
+                        sx={{
+                          flexDirection: "row",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          width: "600px",
+                          height: "96px",
+                          padding: "24px",
+                          border: `1px solid ${color}`,
+                          borderRadius: "6px",
+                          boxSizing: "border-box",
+                          "&:hover": {
+                            backgroundColor: "rgba(0, 0, 0, 0.04)",
+                          },
+                          background: background,
+                        }}
+                        onClick={() => {
+                          handleSelected(idx.toString());
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirecton: "row",
+                            gap: "16px",
+                            alignItems: "center",
+                          }}
+                        >
+                          <PeopleOutlinedIcon
+                            sx={{ width: "32px", height: "32px", color: color }}
+                          />
                           <Box
                             sx={{
                               display: "flex",
-                              flexDirection: "row",
-                              gap: "8px",
-                              alignItems: "center",
+                              flexDirection: "column",
+                              gap: "2px",
                             }}
                           >
-                            <Typography
+                            <Box
                               sx={{
-                                color: fontColor,
-                                fontSize: "16px",
-                                fontWeight: "600",
-                                lineHeight: "26px",
+                                display: "flex",
+                                flexDirection: "row",
+                                gap: "8px",
+                                alignItems: "center",
                               }}
                             >
-                              {item.title}
-                            </Typography>
+                              <Typography
+                                sx={{
+                                  color: fontColor,
+                                  fontSize: "16px",
+                                  fontWeight: "600",
+                                  lineHeight: "26px",
+                                }}
+                              >
+                                {item.title}
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  background: "#F3F4F6",
+                                  borderRadius: "4px",
+                                  color: "#111928",
+                                  fontSize: "16px",
+                                  fontWeight: "600",
+                                  lineHeight: "26px",
+                                  padding: "2px 8px",
+                                }}
+                              >
+                                {item.memberNum}
+                              </Typography>
+                            </Box>
                             <Typography
                               sx={{
-                                background: "#F3F4F6",
-                                borderRadius: "4px",
-                                color: "#111928",
-                                fontSize: "16px",
-                                fontWeight: "600",
-                                lineHeight: "26px",
-                                padding: "2px 8px",
+                                color: detailFontColor,
+                                fontSize: "14px",
+                                fontWeight: "400",
+                                lineHeight: "20px",
                               }}
                             >
-                              {item.memberNum}
+                              {item.detailTitle}
                             </Typography>
                           </Box>
-                          <Typography
-                            sx={{
-                              color: detailFontColor,
-                              fontSize: "14px",
-                              fontWeight: "400",
-                              lineHeight: "20px",
-                            }}
-                          >
-                            {item.detailTitle}
-                          </Typography>
                         </Box>
-                      </Box>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          flexDirection: "row",
-                          gap: "16px",
-                          alignItems: "center",
-                        }}
-                      >
-                        {item.isManager && (
-                          <Typography
-                            sx={{
-                              height: "22px",
-                              width: "fit-content",
-                              padding: "2px 8px",
-                              borderRadius: "4px",
-                              background:
-                                "linear-gradient(0deg, rgba(63, 131, 248, 0.10) 0%, rgba(63, 131, 248, 0.10) 100%)",
-                              color: "#1C64F2",
-                              fontSize: "12px",
-                              fontWeight: "600",
-                              lineHeight: "18px",
-                              textAlign: "center",
-                            }}
-                          >
-                            운영진
-                          </Typography>
-                        )}
-                        <IconButton
+                        <Box
                           sx={{
-                            color: "#111928",
-                            "&:hover": {
-                              backgroundColor: "rgba(0, 0, 0, 0.04)",
-                            },
-                          }}
-                          onClick={(event) => {
-                            setAnchorElement(event.currentTarget);
+                            display: "flex",
+                            flexDirection: "row",
+                            gap: "16px",
+                            alignItems: "center",
                           }}
                         >
-                          <MoreHorizOutlinedIcon />
-                        </IconButton>
-                        <Popover
-                          open={isOpened}
-                          anchorEl={anchorElement}
-                          onClose={() => {
-                            setAnchorElement(null);
-                          }}
-                          anchorOrigin={{
-                            vertical: "bottom",
-                            horizontal: "right",
-                          }}
-                          transformOrigin={{
-                            vertical: "top",
-                            horizontal: "right",
-                          }}
-                        >
-                          <Stack
+                          {item.isManager && (
+                            <Typography
+                              sx={{
+                                height: "22px",
+                                width: "fit-content",
+                                padding: "2px 8px",
+                                borderRadius: "4px",
+                                background:
+                                  "linear-gradient(0deg, rgba(63, 131, 248, 0.10) 0%, rgba(63, 131, 248, 0.10) 100%)",
+                                color: "#1C64F2",
+                                fontSize: "12px",
+                                fontWeight: "600",
+                                lineHeight: "18px",
+                                textAlign: "center",
+                              }}
+                            >
+                              운영진
+                            </Typography>
+                          )}
+                          <IconButton
                             sx={{
-                              alignItems: "center",
-                              justifyContent: "center",
+                              color: "#111928",
+                              "&:hover": {
+                                backgroundColor: "rgba(0, 0, 0, 0.04)",
+                              },
+                            }}
+                            onClick={(event) => {
+                              setAnchorElement(event.currentTarget);
                             }}
                           >
-                            <Typography
+                            <MoreHorizOutlinedIcon />
+                          </IconButton>
+                          <Popover
+                            open={isOpened}
+                            anchorEl={anchorElement}
+                            onClose={() => {
+                              setAnchorElement(null);
+                            }}
+                            anchorOrigin={{
+                              vertical: "bottom",
+                              horizontal: "right",
+                            }}
+                            transformOrigin={{
+                              vertical: "top",
+                              horizontal: "right",
+                            }}
+                          >
+                            <Stack
                               sx={{
-                                ...popOverStyle,
+                                alignItems: "center",
+                                justifyContent: "center",
                               }}
                             >
-                              {`이름 바꾸기`}
-                            </Typography>
-                            <Typography
-                              sx={{
-                                ...popOverStyle,
-                              }}
-                              onClick={() => {
-                                setAnchorElement(null);
-                                setOpenDeleteDialog(true);
-                              }}
-                            >
-                              {`그룹 삭제하기`}
-                            </Typography>
-                            <Typography
-                              sx={{
-                                ...popOverStyle,
-                              }}
-                            >
-                              {`구성원 초대하기`}
-                            </Typography>
-                          </Stack>
-                        </Popover>
-                      </Box>
-                    </Stack>
-                  );
+                              <Typography
+                                sx={{
+                                  ...popOverStyle,
+                                }}
+                                onClick={() => {
+                                  setAnchorElement(null);
+                                  setUpdateGroup(idx);
+                                }}
+                              >
+                                {`이름 바꾸기`}
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  ...popOverStyle,
+                                }}
+                                onClick={() => {
+                                  setAnchorElement(null);
+                                  setOpenDeleteDialog(true);
+                                }}
+                              >
+                                {`그룹 삭제하기`}
+                              </Typography>
+                              <Typography
+                                sx={{
+                                  ...popOverStyle,
+                                }}
+                              >
+                                {`구성원 초대하기`}
+                              </Typography>
+                            </Stack>
+                          </Popover>
+                        </Box>
+                      </Stack>
+                    );
+                  }
                 })}
             </Stack>
           )}

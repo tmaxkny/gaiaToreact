@@ -1,16 +1,12 @@
 import * as React from "react";
-import { Box, Button, Snackbar, Stack, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import PlaylistAddIcon from "@mui/icons-material/PlaylistAdd";
-import CreateIcon from "@mui/icons-material/Create";
-import ClearIcon from "@mui/icons-material/Clear";
 
 const RegisterTitle: React.FC<any> = React.forwardRef<any, any>(
   ({ className, onMoveList, onMoveCreate, children }, ref) => {
-    const [isDisable, setIsDisable] = React.useState(false);
-
     return (
       <div className={className} ref={ref}>
+        {children}
         <Stack
           direction="row"
           sx={{
@@ -49,7 +45,6 @@ const RegisterTitle: React.FC<any> = React.forwardRef<any, any>(
                 fontWeight: "600",
                 lineHeight: "26px",
               }}
-              disabled={isDisable}
             >
               미리보기
             </Button>

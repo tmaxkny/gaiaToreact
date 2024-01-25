@@ -13,6 +13,7 @@ import Title from "./page/Home/Title";
 import CommentList from "./page/Sr/Detail/CommentList";
 import PromotionPage from "./page/Promotion/PromotionPage";
 import PromotionRegister from "./page/Promotion/Create/PromotionRegister";
+import PromotionRegister2 from "./page/Promotion/Create/PromotionRegister2";
 
 function App() {
   return (

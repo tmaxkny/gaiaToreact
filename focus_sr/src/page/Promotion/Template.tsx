@@ -1,12 +1,5 @@
 import * as React from "react";
-import {
-  Stack,
-  Checkbox,
-  Typography,
-  FormControlLabel,
-  Button,
-  Box,
-} from "@mui/material";
+import { Stack, Typography, Box } from "@mui/material";
 
 const Template: React.FC<any> = React.forwardRef<any, any>(
   ({ className, children }, ref) => {

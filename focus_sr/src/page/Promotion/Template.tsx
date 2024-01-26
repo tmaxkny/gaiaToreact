@@ -2,7 +2,7 @@ import * as React from "react";
 import { Stack, Typography, Box } from "@mui/material";
 
 const Template: React.FC<any> = React.forwardRef<any, any>(
-  ({ className, children }, ref) => {
+  ({ className, children, moveToCreate }, ref) => {
     return (
       <div className={className} ref={ref}>
         {children}
@@ -33,7 +33,9 @@ const Template: React.FC<any> = React.forwardRef<any, any>(
             }}
           >
             <Stack
-              onClick={() => {}}
+              onClick={() => {
+                moveToCreate();
+              }}
               px="32px"
               py="24px"
               sx={{
@@ -101,7 +103,9 @@ const Template: React.FC<any> = React.forwardRef<any, any>(
             </Stack>
 
             <Stack
-              onClick={() => {}}
+              onClick={() => {
+                moveToCreate();
+              }}
               px="32px"
               py="24px"
               sx={{
@@ -168,7 +172,9 @@ const Template: React.FC<any> = React.forwardRef<any, any>(
               </Stack>
             </Stack>
             <Stack
-              onClick={() => {}}
+              onClick={() => {
+                moveToCreate();
+              }}
               px="32px"
               py="24px"
               sx={{

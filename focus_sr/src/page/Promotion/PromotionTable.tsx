@@ -32,6 +32,8 @@ const PromotionTable: React.FC<any> = React.forwardRef<any, any>(
     const [query, setQuery] = React.useState("");
     const [checkboxs, setCheckboxs] = React.useState<number[]>([]);
     const [checkboxAll, setCheckboxAll] = React.useState(false);
+    const [deleteButtonAble, setDeleteButtonAble] = React.useState(true);
+
     const [anchorElement, setAnchorElement] =
       React.useState<HTMLElement | null>(null);
     const isOpened = Boolean(anchorElement);
@@ -157,6 +159,11 @@ const PromotionTable: React.FC<any> = React.forwardRef<any, any>(
       else setCheckboxs([...Array(tableLength).keys()]);
       setCheckboxAll(!checkboxAll);
     };
+
+    React.useEffect(() => {
+      if (checkboxs.length > 0) setDeleteButtonAble(false);
+      else setDeleteButtonAble(true);
+    }, [checkboxs]);
 
     return (
       <div className={className} ref={ref}>
@@ -355,6 +362,7 @@ const PromotionTable: React.FC<any> = React.forwardRef<any, any>(
                     }}
                   />
                   <Button
+                    disabled={deleteButtonAble}
                     startIcon={
                       <DeleteOutlinedIcon
                         sx={{ width: "16px", height: "16px", color: "#9CA3AF" }}

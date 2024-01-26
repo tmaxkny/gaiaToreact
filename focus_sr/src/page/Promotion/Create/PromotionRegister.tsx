@@ -5,7 +5,7 @@ import PromotionOption from "./PromotionOption";
 
 export const PromotionRegister: React.FC = () => {
   return (
-    <Stack sx={{ gap: "20px" }}>
+    <Stack>
       <RegisterTitle />
       <PromotionOption />
     </Stack>

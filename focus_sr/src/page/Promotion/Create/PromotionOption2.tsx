@@ -8,12 +8,17 @@ import {
   MenuItem,
   Checkbox,
   InputAdornment,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 const PromotionOption2: React.FC<any> = React.forwardRef<any, any>(
   ({ className, children }, ref) => {
+    const isOnSitePage = false;
+
     type TTargetRange = {
       lowestValue: string;
       highestValue: string;
@@ -47,6 +52,8 @@ const PromotionOption2: React.FC<any> = React.forwardRef<any, any>(
     });
     const [sector, setSector] = React.useState("");
     const [rank, setRank] = React.useState("");
+    const [isReserve, setIsReserve] = React.useState(""); //예약전송
+    const [url, setUrl] = React.useState(""); //노출위치
 
     const sectorList = ["공공", "교육", "언론/미디어", "연구", "기타"];
     const rankList = [
@@ -59,7 +66,10 @@ const PromotionOption2: React.FC<any> = React.forwardRef<any, any>(
       "임원",
       "CEO",
     ];
-    const [url, setUrl] = React.useState("");
+
+    const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+      setIsReserve(evt.target.value);
+    };
 
     React.useEffect(() => {
       console.log(visit, purchaseAmount, point, headCount, sector, rank);
@@ -121,7 +131,7 @@ const PromotionOption2: React.FC<any> = React.forwardRef<any, any>(
                       lineHeight: "20px",
                     }}
                   >
-                    티깃 설정
+                    타깃 설정
                   </Typography>
                   <HelpOutlineIcon
                     sx={{ width: "16px", height: "16px", color: "#374151" }}
@@ -1108,65 +1118,175 @@ const PromotionOption2: React.FC<any> = React.forwardRef<any, any>(
                   </Stack>
                 </Box>
               </Box>
-              {/**노출위치 */}
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  gap: "20px",
-                }}
-              >
-                <Typography
-                  sx={{
-                    width: "86px",
-                    color: "rgba(0, 0, 0, 0.85)",
-                    fontSize: "14px",
-                    fontWeight: "600",
-                    lineHeight: "20px",
-                  }}
-                >
-                  노출 위치
-                </Typography>
-                <Select
-                  value={url}
-                  onChange={(e) => {
-                    const value = e.target.value as string;
-                    setUrl(value);
-                  }}
-                  sx={{
-                    width: "200px",
-                    color: "#111928",
-                    fontSize: "16px",
-                    fontWeight: "400",
-                    lineHeight: "26px",
-                    padding: "10px 12px",
-                    height: "40px",
-                  }}
-                >
-                  <MenuItem value="DBAS">DBAS</MenuItem>
-                </Select>
-              </Box>
-              {/**노출 기간 */}
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  gap: "20px",
-                }}
-              >
-                <Typography
-                  sx={{
-                    width: "86px",
-                    color: "rgba(0, 0, 0, 0.85)",
-                    fontSize: "14px",
-                    fontWeight: "600",
-                    lineHeight: "20px",
-                  }}
-                >
-                  노출 기간
-                </Typography>
-                {children}
-              </Box>
+              {/** */}
+              {isOnSitePage ? (
+                <Stack sx={{ gap: "32px" }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: "20px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        width: "86px",
+                        color: "rgba(0, 0, 0, 0.85)",
+                        fontSize: "14px",
+                        fontWeight: "600",
+                        lineHeight: "20px",
+                      }}
+                    >
+                      노출 위치
+                    </Typography>
+                    <Select
+                      value={url}
+                      onChange={(e) => {
+                        const value = e.target.value as string;
+                        setUrl(value);
+                      }}
+                      sx={{
+                        width: "200px",
+                        color: "#111928",
+                        fontSize: "16px",
+                        fontWeight: "400",
+                        lineHeight: "26px",
+                        padding: "10px 12px",
+                        height: "40px",
+                      }}
+                    >
+                      <MenuItem value="DBAS">DBAS</MenuItem>
+                    </Select>
+                  </Box>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: "20px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        width: "86px",
+                        color: "rgba(0, 0, 0, 0.85)",
+                        fontSize: "14px",
+                        fontWeight: "600",
+                        lineHeight: "20px",
+                      }}
+                    >
+                      노출 기간
+                    </Typography>
+                    {children}
+                  </Box>
+                </Stack>
+              ) : (
+                <Stack sx={{ gap: "24px" }}>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      gap: "20px",
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        width: "86px",
+                        color: "rgba(0, 0, 0, 0.85)",
+                        fontSize: "14px",
+                        fontWeight: "600",
+                        lineHeight: "20px",
+                      }}
+                    >
+                      예약전송
+                    </Typography>
+                    <Stack gap="24px">
+                      <RadioGroup
+                        sx={{
+                          flex: 1,
+                          display: "flex",
+                          flexDirection: "row",
+                          gap: "20px",
+                        }}
+                        onChange={(e) => {
+                          handleChange(e);
+                        }}
+                        value={isReserve}
+                        name="isReserve-type"
+                      >
+                        <FormControlLabel
+                          sx={{}}
+                          checked={isReserve === "사용"}
+                          value={"사용"}
+                          control={<Radio />}
+                          label={
+                            <Typography
+                              fontSize="14px"
+                              fontWeight="600"
+                              color="rgba(0, 0, 0, 0.85)"
+                            >
+                              사용
+                            </Typography>
+                          }
+                        ></FormControlLabel>
+                        <FormControlLabel
+                          sx={{}}
+                          checked={isReserve === "미사용"}
+                          value={"미사용"}
+                          control={<Radio />}
+                          label={
+                            <Typography
+                              fontSize="14px"
+                              fontWeight="600"
+                              color="rgba(0, 0, 0, 0.85)"
+                            >
+                              미사용
+                            </Typography>
+                          }
+                        ></FormControlLabel>
+                      </RadioGroup>
+                      <Stack gap="12px">
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            gap: "44px",
+                          }}
+                        >
+                          <Typography
+                            sx={{
+                              color: "#6B7280",
+                              fontSize: "14px",
+                              fontWeight: "600",
+                              lineHeight: "20px",
+                            }}
+                          >
+                            전송일
+                          </Typography>
+                          <Typography
+                            sx={{
+                              color: "#6B7280",
+                              fontSize: "14px",
+                              fontWeight: "600",
+                              lineHeight: "20px",
+                            }}
+                          >
+                            전송 시간
+                          </Typography>
+                        </Box>
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            gap: "44px",
+                          }}
+                        >
+                          {children}
+                        </Box>
+                      </Stack>
+                    </Stack>
+                  </Box>
+                </Stack>
+              )}
             </Stack>
           </Stack>
         </Stack>

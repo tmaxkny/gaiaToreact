@@ -9,13 +9,32 @@ import {
   Radio,
   Select,
   MenuItem,
+  FormLabel,
+  Input,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogActions,
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import CircleIcon from "@mui/icons-material/Circle";
+import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
+import CloseIcon from "@mui/icons-material/Close";
 
 const PromotionOption: React.FC<any> = React.forwardRef<any, any>(
   ({ className, children }, ref) => {
-    const isOnSitePage = true;
+    const pageType = "WAPL";
+    const imageLimitList: { [key: string]: number } = {
+      ONSITE: 1,
+      WAPL: 3,
+      EMAIL: 5,
+    };
+    const imageLimit = imageLimitList[pageType];
+    type TImage = {
+      id: number;
+      src: string;
+    };
+
     const [promotionName, setPromotionName] = React.useState(""); //프로모션 이름
     const [media, setMedia] = React.useState(""); //매체
     const [manager, setManager] = React.useState(""); //담당자
@@ -25,6 +44,8 @@ const PromotionOption: React.FC<any> = React.forwardRef<any, any>(
     const [isAbleCtaForm, setIsAbleCtaForm] = React.useState(false); //행동유도버튼폼
     const [ctaForm, setCtaForm] = React.useState(""); //행동유도버튼폼 내용
     const [selectUrl, setSelectUrl] = React.useState("HOME"); //도착 URL
+    const [images, setImages] = React.useState<TImage[]>(); //image url
+    const [openImageDialog, setOpenImageDialog] = React.useState(false);
 
     const mediaFormStyle = {
       margin: "0px",
@@ -67,8 +88,25 @@ const PromotionOption: React.FC<any> = React.forwardRef<any, any>(
     ];
 
     const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-      console.log(evt.target.value);
       setMedia(evt.target.value);
+    };
+
+    const deleteImage = (id: number) => {
+      const newImages = images?.filter((item) => item.id !== id);
+      setImages(newImages);
+    };
+
+    const uploadImage = (evt: React.ChangeEvent<HTMLInputElement>) => {
+      const files = evt.target.files;
+      const file = files && files[0];
+
+      if ((images && imageLimit > images.length) || !images) {
+        if (file) {
+          const url = window.URL.createObjectURL(file);
+          const id = (images?.length || 0) + 1;
+          setImages((prev) => [...(prev || []), { id: id, src: url }]);
+        }
+      } else setOpenImageDialog(true);
     };
 
     return (
@@ -453,13 +491,97 @@ const PromotionOption: React.FC<any> = React.forwardRef<any, any>(
                     gap: "12px",
                   }}
                 >
-                  <Box
-                    sx={{
-                      width: "220px",
-                      height: "220px",
-                      backgroundColor: "#D1D5DB",
-                    }}
-                  ></Box>
+                  <Stack
+                    direction={"row"}
+                    gap={"12px"}
+                    alignItems={"center"}
+                    justifyContent={"flex-start"}
+                    sx={{ flex: 1, height: "100%" }}
+                  >
+                    <FormLabel
+                      htmlFor={"image-file"}
+                      sx={{
+                        display: "flex",
+                        width: "220px",
+                        height: "220px",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "#F9FAFB",
+                        boxSizing: "border-box",
+                        border: "1px dotted #D1D5DB",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <Input
+                        type="file"
+                        value=""
+                        id="image-file"
+                        sx={{ display: "none" }}
+                        onChange={uploadImage}
+                      />
+                      <Typography
+                        component={"span"}
+                        color={"#3F83F8"}
+                        fontSize={"16px"}
+                        fontWeight={"400"}
+                        sx={{
+                          verticalAlign: "center",
+                        }}
+                      >
+                        <AddPhotoAlternateIcon
+                          sx={{ width: "32px", height: "32px" }}
+                        />
+                        이미지 추가
+                      </Typography>
+                    </FormLabel>
+                    {images &&
+                      images.map((item, idx) => (
+                        <Box key={idx} sx={{ position: "relative" }}>
+                          <Box
+                            component={"img"}
+                            sx={{
+                              display: "block",
+                              width: "220px",
+                              height: "220px",
+                              objectFit: "contain",
+                              boxSizing: "border-box",
+                              border: "1px solid #D1D5DB",
+                            }}
+                            src={item.src}
+                          />
+                          <Button
+                            onClick={() => {
+                              deleteImage(item.id);
+                            }}
+                            sx={{
+                              position: "absolute",
+                              top: "8px",
+                              right: "8px",
+                              zIndex: 2,
+                              padding: "6px",
+                              borderRadius: "6px",
+                              minWidth: "auto",
+                              backgroundColor: "#F9FAFB",
+                              "& .MuiButton-startIcon": {
+                                margin: "0px",
+                              },
+                            }}
+                            disableRipple
+                            startIcon={
+                              <CloseIcon
+                                sx={{
+                                  lineHeight: "none",
+                                  marginRight: "0px",
+                                  fontSize: "12.5px",
+                                  color: "#111928",
+                                }}
+                              />
+                            }
+                          />
+                        </Box>
+                      ))}
+                  </Stack>
                   <Typography
                     sx={{
                       color: "",
@@ -583,6 +705,77 @@ const PromotionOption: React.FC<any> = React.forwardRef<any, any>(
             </Stack>
           </Stack>
         </Stack>
+        <Dialog
+          open={openImageDialog}
+          sx={{
+            "& .MuiDialog-paper": {
+              width: "343px",
+              height: "190px",
+              bgcolor: "#FFFFFF",
+              borderRadius: "4px",
+              border: "1px solid #000",
+              boxShadow:
+                "0px 10px 10px -5px rgba(15, 23, 42, 0.04), 0px 20px 25px -5px rgba(15, 23, 42, 0.10), 0px 0px 1px 0px rgba(15, 23, 42, 0.06)",
+            },
+          }}
+        >
+          <DialogTitle
+            display="flex"
+            sx={{
+              padding: "24px",
+              boxSizing: "border-box",
+            }}
+          >
+            <Stack gap="16px" justifyContent="center">
+              <Typography
+                sx={{
+                  textAlign: "center",
+                  color: "#0F172A",
+                  fontSize: "16px",
+                  fontWeight: "700",
+                  lineHeight: "24px",
+                }}
+              >
+                알림
+              </Typography>
+              <Typography
+                sx={{
+                  textAlign: "center",
+                  color: "#0F172A",
+                  fontSize: "14px",
+                  fontWeight: "400",
+                  lineHeight: "24px",
+                }}
+              >
+                첨부 가능한 이미지 개수를 초과하였습니다.
+              </Typography>
+            </Stack>
+          </DialogTitle>
+
+          <DialogActions
+            sx={{
+              padding: "18px 24px 24px 24px",
+              boxSizing: "border-box",
+            }}
+          >
+            <Button
+              sx={{
+                width: 1,
+                height: "36px",
+                backgroundColor: "#0F172A",
+                borderRadius: "2px",
+                fontWeight: 600,
+                fontSize: "14px",
+                color: "#FFFFFF",
+              }}
+              onClick={() => {
+                setOpenImageDialog(false);
+              }}
+            >
+              확인
+            </Button>
+          </DialogActions>
+        </Dialog>
       </div>
     );
   }

@@ -18,7 +18,7 @@ import PromotionRegister2 from "./page/Promotion/Create/PromotionRegister2";
 function App() {
   return (
     <>
-      <PromotionRegister />
+      <PromotionPage />
     </>
   );
 }

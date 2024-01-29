@@ -67,6 +67,7 @@ const PromotionTable: React.FC<any> = React.forwardRef<any, any>(
     const headerCellStyle = {
       backgroundColor: "#F3F4F6",
       fontWeight: "600",
+      boxSizing: "border-box",
     };
 
     const cellStyle = {
@@ -424,7 +425,6 @@ const PromotionTable: React.FC<any> = React.forwardRef<any, any>(
                       <Checkbox
                         checked={checkboxs.length === tableLength}
                         onClick={() => {
-                          console.log("dddd");
                           handleCheckboxAll();
                         }}
                       />

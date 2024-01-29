@@ -14,11 +14,14 @@ import CommentList from "./page/Sr/Detail/CommentList";
 import PromotionPage from "./page/Promotion/PromotionPage";
 import PromotionRegister from "./page/Promotion/Create/PromotionRegister";
 import PromotionRegister2 from "./page/Promotion/Create/PromotionRegister2";
+import PromotionDetail from "./page/Promotion/Detail/PromotionDetail";
+import BouncePosition from "./page/Promotion/Detail/BouncePosition";
+import PurchaseProduct from "./page/Promotion/Detail/PurchaseProduct";
 
 function App() {
   return (
     <>
-      <PromotionPage />
+      <PurchaseProduct />
     </>
   );
 }

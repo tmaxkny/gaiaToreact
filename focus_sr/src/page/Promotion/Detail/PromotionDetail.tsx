@@ -1,18 +1,26 @@
 import { Stack } from "@mui/material";
 import React from "react";
-import Template from "./Template";
-import PromotionTable from "./PromotionTable";
+import Default from "./Default";
+import DetailTitle from "./DetailTitle";
+import TargetTable from "./TargetTable";
+import Information from "./Information";
+import BouncePosition from "./BouncePosition";
+import PurchaseProduct from "./PurchaseProduct";
 
-export const PromotionDetail: React.FC = () => {
-  const pageType = "BEFORE";
-
-  if (pageType === "BEFORE") {
-    return(
-        
-    )
-  } else {
-    return <></>;
+const PromotionDetail: React.FC<any> = React.forwardRef<any, any>(
+  ({ className, children }, ref) => {
+    return (
+      <Stack>
+        <DetailTitle />
+        <Stack sx={{ padding: "24px 32px", gap: "32px" }}>
+          <Default />
+          <TargetTable />
+          <Information />
+          <BouncePosition />
+        </Stack>
+      </Stack>
+    );
   }
-};
+);
 
 export default PromotionDetail;

@@ -481,7 +481,7 @@ const PromotionOption: React.FC<any> = React.forwardRef<any, any>(
                       lineHeight: "20px",
                     }}
                   >
-                    (1/1)
+                    {`(${images?.length ? images?.length : 0}/${imageLimit})`}
                   </Typography>
                 </Box>
                 <Box

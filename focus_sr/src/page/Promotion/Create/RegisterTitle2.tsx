@@ -2,8 +2,8 @@ import * as React from "react";
 import { Button, Stack, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const RegisterTitle: React.FC<any> = React.forwardRef<any, any>(
-  ({ className, onMoveList, onMoveNext, children }, ref) => {
+const RegisterTitle2: React.FC<any> = React.forwardRef<any, any>(
+  ({ className, onMoveList, onMoveBefore, onMoveCreate, children }, ref) => {
     return (
       <div className={className} ref={ref}>
         {children}
@@ -34,6 +34,7 @@ const RegisterTitle: React.FC<any> = React.forwardRef<any, any>(
           </Stack>
           <Stack direction="row" sx={{ gap: "16px", alignItems: "center" }}>
             <Button
+              onClick={onMoveBefore}
               sx={{
                 background: "#FFFFFF",
                 border: "1px solid #A4CAFE",
@@ -46,11 +47,10 @@ const RegisterTitle: React.FC<any> = React.forwardRef<any, any>(
                 lineHeight: "26px",
               }}
             >
-              미리보기
+              이전 단계
             </Button>
             <Button
               sx={{
-                width: "92px",
                 background: "#1C64F2",
                 borderRadius: "6px",
                 gap: "4px",
@@ -60,9 +60,9 @@ const RegisterTitle: React.FC<any> = React.forwardRef<any, any>(
                 fontWeight: "600",
                 lineHeight: "26px",
               }}
-              onClick={onMoveNext}
+              onClick={onMoveCreate}
             >
-              다음
+              프로모션 전송
             </Button>
           </Stack>
         </Stack>
@@ -71,4 +71,4 @@ const RegisterTitle: React.FC<any> = React.forwardRef<any, any>(
   }
 );
 
-export default RegisterTitle;
+export default RegisterTitle2;

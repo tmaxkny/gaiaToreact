@@ -4,7 +4,12 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import CreateOutlinedIcon from "@mui/icons-material/CreateOutlined";
 
 const DetailTitle: React.FC<any> = React.forwardRef<any, any>(
-  ({ className, children, moveToBack, moveToCreate }, ref) => {
+  ({ className, children, moveToBack, moveToEdit }, ref) => {
+    const pageType = "BEFORE";
+    const editAble =
+      pageType === ("ONSITE" as string) || pageType === ("BEFORE" as string)
+        ? false
+        : true;
     return (
       <Stack
         flexDirection="row"
@@ -30,7 +35,8 @@ const DetailTitle: React.FC<any> = React.forwardRef<any, any>(
           </Typography>
         </Box>
         <Button
-          onClick={() => moveToCreate()}
+          disabled={editAble}
+          onClick={() => moveToEdit()}
           startIcon={
             <CreateOutlinedIcon
               sx={{ width: "20px", height: "20px", color: "#374151" }}

@@ -17,7 +17,8 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 const PromotionOption2: React.FC<any> = React.forwardRef<any, any>(
   ({ className, children }, ref) => {
-    const isOnSitePage = false;
+    const pageType = "WAPL";
+    const isOnSitePage = pageType === ("ONSITE" as string) ? true : false;
 
     type TTargetRange = {
       lowestValue: string;

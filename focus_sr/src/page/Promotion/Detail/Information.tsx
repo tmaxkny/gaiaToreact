@@ -3,7 +3,7 @@ import React from "react";
 
 const Information: React.FC<any> = React.forwardRef<any, any>(
   ({ className, children }, ref) => {
-    const pageType = "ONSITE";
+    const pageType = "BEFORE";
 
     const dummyData = {
       BEFORE: {

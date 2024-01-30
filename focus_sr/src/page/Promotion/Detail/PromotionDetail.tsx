@@ -17,6 +17,7 @@ const PromotionDetail: React.FC<any> = React.forwardRef<any, any>(
           <TargetTable />
           <Information />
           <BouncePosition />
+          <PurchaseProduct />
         </Stack>
       </Stack>
     );

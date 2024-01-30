@@ -21,7 +21,7 @@ import PurchaseProduct from "./page/Promotion/Detail/PurchaseProduct";
 function App() {
   return (
     <>
-      <PurchaseProduct />
+      <PromotionRegister />
     </>
   );
 }

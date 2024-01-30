@@ -1,12 +1,12 @@
 import { Stack } from "@mui/material";
 import React from "react";
-import RegisterTitle from "./RegisterTtile";
+import RegisterTitle2 from "./RegisterTitle2";
 import PromotionOption2 from "./PromotionOption2";
 
 export const PromotionRegister2: React.FC = () => {
   return (
-    <Stack sx={{ gap: "20px" }}>
-      <RegisterTitle />
+    <Stack>
+      <RegisterTitle2 />
       <PromotionOption2 />
     </Stack>
   );

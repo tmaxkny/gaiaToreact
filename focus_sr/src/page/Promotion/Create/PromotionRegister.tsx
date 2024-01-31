@@ -4,12 +4,7 @@ import RegisterTitle from "./RegisterTtile";
 import PromotionOption from "./PromotionOption";
 
 export const PromotionRegister: React.FC = () => {
-  return (
-    <Stack>
-      <RegisterTitle />
-      <PromotionOption />
-    </Stack>
-  );
+  return <PromotionOption />;
 };
 
 export default PromotionRegister;

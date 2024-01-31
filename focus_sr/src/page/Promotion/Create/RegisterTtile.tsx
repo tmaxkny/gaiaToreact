@@ -11,7 +11,7 @@ const RegisterTitle: React.FC<any> = React.forwardRef<any, any>(
           direction="row"
           sx={{
             padding: "20px 32px",
-            justifyContent: "space-between",
+            justifyContent: "space-between", 
             borderBottom: "1px solid #E5E7EB",
           }}
           alignItems="center"

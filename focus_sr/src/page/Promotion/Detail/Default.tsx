@@ -2,7 +2,7 @@ import { Box, Stack, Typography } from "@mui/material";
 import React from "react";
 
 const Default: React.FC<any> = React.forwardRef<any, any>(
-  ({ className, children }, ref) => {
+  ({ className, children, pageType2 }, ref) => {
     const pageType = "BEFORE";
 
     const dummyData = {

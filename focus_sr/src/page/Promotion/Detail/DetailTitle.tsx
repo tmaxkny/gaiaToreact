@@ -10,6 +10,7 @@ const DetailTitle: React.FC<any> = React.forwardRef<any, any>(
       pageType === ("ONSITE" as string) || pageType === ("BEFORE" as string)
         ? false
         : true;
+        
     return (
       <Stack
         flexDirection="row"

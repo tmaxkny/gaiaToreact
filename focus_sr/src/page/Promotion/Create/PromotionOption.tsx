@@ -25,17 +25,6 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const PromotionOption: React.FC<any> = React.forwardRef<any, any>(
   ({ className, children, moveToList, moveToNext }, ref) => {
-    const imageLimitList: { [key: string]: number } = {
-      Onsite: 1,
-      WAPL: 3,
-      "E-mail": 5,
-    };
-
-    type TImage = {
-      id: number;
-      src: string;
-    };
-
     const [promotionName, setPromotionName] = React.useState(""); //프로모션 이름
     const [media, setMedia] = React.useState("Onsite"); //매체
     const [manager, setManager] = React.useState(""); //담당자
@@ -1136,7 +1125,7 @@ const PromotionOption: React.FC<any> = React.forwardRef<any, any>(
                   />
                 )}
                 <Typography fontSize={"16px"} fontWeight={"700"}>
-                  {promotionName}
+                  {contentTitle}
                 </Typography>
                 <Stack
                   direction={"column"}
@@ -1227,7 +1216,7 @@ const PromotionOption: React.FC<any> = React.forwardRef<any, any>(
                   textAlign={"center"}
                   sx={{ color: "#111928" }}
                 >
-                  {promotionName !== "" ? promotionName : "Email 타이틀"}
+                  {contentTitle !== "" ? contentTitle : "Email 타이틀"}
                 </Typography>
                 <Stack
                   direction={"column"}

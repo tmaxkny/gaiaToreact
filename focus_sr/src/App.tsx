@@ -17,11 +17,12 @@ import PromotionRegister2 from "./page/Promotion/Create/PromotionRegister2";
 import PromotionDetail from "./page/Promotion/Detail/PromotionDetail";
 import BouncePosition from "./page/Promotion/Detail/BouncePosition";
 import PurchaseProduct from "./page/Promotion/Detail/PurchaseProduct";
+import SrTechPage2 from "./page/Sr/SrTechPage2";
 
 function App() {
   return (
     <>
-      <PromotionRegister />
+      <Manage />
     </>
   );
 }

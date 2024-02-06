@@ -1,9 +1,43 @@
 import * as React from "react";
-import { Stack, Typography, TextField, Button } from "@mui/material";
+import { Stack, Typography, TextField, Button, Box } from "@mui/material";
 import { Add } from "@mui/icons-material";
+import ClearOutlinedIcon from "@mui/icons-material/ClearOutlined";
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 
 const CommentForm: React.FC<any> = React.forwardRef<any, any>(
   ({ className, children }, ref) => {
+    type TFile = {
+      id: number;
+      name: string;
+      src: string;
+    };
+    const fileFontStyle = {
+      fontWeight: "600",
+      fontSize: "12px",
+      color: "#1C64F2",
+    };
+    const [files, setFiles] = React.useState<TFile[]>(); //image url
+
+    const deleteFile = (id: number) => {
+      const newFiles = files?.filter((item) => item.id !== id);
+      setFiles(newFiles);
+    };
+
+    const uploadFile = (evt: React.ChangeEvent<HTMLInputElement>) => {
+      const newFiles = evt.target.files;
+      const newFile = newFiles && newFiles[0];
+
+      if (newFile) {
+        const url = window.URL.createObjectURL(newFile);
+        const id = (files?.length || 0) + 1;
+        setFiles((prev) => [
+          ...(prev || []),
+          { id: id, name: newFile.name, src: url },
+        ]);
+        evt.target.value = "";
+      }
+    };
+
     return (
       <div className={className} ref={ref}>
         {children}
@@ -45,6 +79,39 @@ const CommentForm: React.FC<any> = React.forwardRef<any, any>(
             >
               파일 업로드
             </Typography>
+            {files &&
+              files.map((item) => {
+                return (
+                  <Box
+                    key={item.id}
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: "8px",
+                      padding: "7px 10px",
+                      background: "#FFFFFF",
+                      border: "1px solid #A4CAFE",
+                      borderRadius: "4px",
+                      boxSizing: "border-box",
+                      height: "32px",
+                    }}
+                  >
+                    <Typography sx={{ ...fileFontStyle }}>
+                      {item.name}
+                    </Typography>
+                    <FileDownloadOutlinedIcon
+                      sx={{ width: "12px", height: "12px", color: "#1C64F2" }}
+                    />
+                    <ClearOutlinedIcon
+                      sx={{ width: "12px", height: "12px", color: "#1C64F2" }}
+                      onClick={() => {
+                        deleteFile(item.id);
+                      }}
+                    />
+                  </Box>
+                );
+              })}
             <Stack direction="column" gap="12px">
               <Button
                 component="label"
@@ -63,6 +130,9 @@ const CommentForm: React.FC<any> = React.forwardRef<any, any>(
                   id="file_upload"
                   type="file"
                   style={{ display: "none" }}
+                  onChange={(e) => {
+                    uploadFile(e);
+                  }}
                 />
               </Button>
               <Typography

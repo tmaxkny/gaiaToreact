@@ -17,7 +17,7 @@ import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
 
 export const Manage: React.FC<any> = React.forwardRef<any, any>(
-  ({ className, children }, ref) => {
+  ({ className, children, onMoveDetail }, ref) => {
     const [fakeGroupList, setFakeGroupList] = React.useState([
       {
         id: 0,
@@ -55,6 +55,7 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
     };
 
     const [groupName, setGroupName] = React.useState("");
+    const [editGroupName, setEditGroupName] = React.useState("");
     const [select, setSelect] = React.useState<string>("");
     const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
     const [anchorElement, setAnchorElement] =
@@ -227,18 +228,11 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                             sx={{ width: "32px", height: "32px" }}
                           />
                           <TextField
-                            placeholder="직무 그룹 이름을 입력해주세요(ex. 마케팅 팀)"
                             value={groupName}
                             onChange={(e) => {
                               const newGroupName = e.target.value as string;
                               setGroupName(newGroupName);
                             }}
-                            /* onKeyDown={e => {
-                            if (e.key === 'Enter') {
-                                handleTableSubmit();
-                            }
-                        }} */
-
                             InputProps={{
                               sx: {
                                 width: "350px",
@@ -476,6 +470,7 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                                 sx={{
                                   ...popOverStyle,
                                 }}
+                                onClick={onMoveDetail}
                               >
                                 {`구성원 초대하기`}
                               </Typography>

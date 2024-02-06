@@ -16,9 +16,37 @@ const DetailPageHeader2: React.FC<any> = React.forwardRef<any, any>(
       phoneNumber,
       name,
       file,
+      fileName,
     },
     ref
   ) => {
+    const downloadFile = (filePath: string, fileName: string) => {
+      try {
+        const xhr = new XMLHttpRequest();
+        // TODO: 다운로드 파일에 따라 URL 정보만 변경될 수 있게 코드 작성하면 편할 듯 합니다.
+        xhr.open("GET", filePath, true);
+        xhr.responseType = "blob";
+        xhr.onload = function () {
+          const blob = xhr.response;
+          // Blob 객체의 URL 생성
+          const blobUrl = URL.createObjectURL(blob);
+          // 다운로드 링크 생성
+          const downloadElement = document.createElement("a");
+          downloadElement.href = blobUrl;
+          downloadElement.download = fileName;
+          // 링크를 클릭하여 다운로드 트리거
+          document.body.appendChild(downloadElement);
+          downloadElement.click();
+          // Blob 객체의 URL 해제
+          URL.revokeObjectURL(blobUrl);
+          // 리소스 해제
+          document.body.removeChild(downloadElement);
+        };
+        xhr.send();
+      } catch (error) {
+        console.error("파일을 다운로드하는 중 오류 발생: ", error);
+      }
+    };
     return (
       <div className={className} ref={ref}>
         <Stack>
@@ -384,6 +412,7 @@ const DetailPageHeader2: React.FC<any> = React.forwardRef<any, any>(
                 sx={{ display: "flex", padding: "16px", alignItems: "center" }}
               >
                 <Button
+                  onClick={() => downloadFile(file, fileName)}
                   startIcon={<AttachFileIcon />}
                   sx={{
                     height: "36px",

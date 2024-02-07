@@ -34,7 +34,7 @@ const CommentForm: React.FC<any> = React.forwardRef<any, any>(
           ...(prev || []),
           { id: id, name: newFile.name, src: url },
         ]);
-        evt.target.value = "";
+        evt.target.value = ""; 
       }
     };
 

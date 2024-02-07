@@ -14,7 +14,7 @@ import {
 import { Add } from "@mui/icons-material";
 import PeopleOutlinedIcon from "@mui/icons-material/PeopleOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 export const Manage: React.FC<any> = React.forwardRef<any, any>(
   ({ className, children, onMoveDetail }, ref) => {
@@ -54,19 +54,24 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
       },
     };
 
-    const [groupName, setGroupName] = React.useState("");
-    const [editGroupName, setEditGroupName] = React.useState("");
-    const [select, setSelect] = React.useState<string>("");
+    const [groupName, setGroupName] = React.useState(""); //새 직무그룹추가
+    const [editGroupName, setEditGroupName] = React.useState(""); //수정할 그 직무그릅
+    const [select, setSelect] = React.useState<number>();
     const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
     const [anchorElement, setAnchorElement] =
       React.useState<HTMLElement | null>(null);
     const isOpened = Boolean(anchorElement);
     const [formAble, setFormAble] = React.useState(false); //새 직무그룹 추가를 누르면 생기는 폼
+    const [formFocus, setFormFocus] = React.useState(false); //추가, 수정 폼에서 clear아이콘
     const [updateGroup, setUpdateGroup] = React.useState<number>();
 
-    const handleSelected = (idx: string) => {
+    const handleSelected = (idx: number) => {
       setSelect(idx);
     };
+
+    React.useEffect(() => {
+      console.log(select);
+    }, [select]);
 
     return (
       <div className={className} ref={ref}>
@@ -122,12 +127,8 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                         const newGroupName = e.target.value as string;
                         setGroupName(newGroupName);
                       }}
-                      /* onKeyDown={e => {
-                            if (e.key === 'Enter') {
-                                handleTableSubmit();
-                            }
-                        }} */
-
+                      onFocus={() => setFormFocus(true)}
+                      onBlur={() => setFormFocus(false)}
                       InputProps={{
                         sx: {
                           width: "350px",
@@ -136,6 +137,26 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                           fontWeight: "400px",
                           lineHeight: "26px",
                         },
+                        endAdornment: formFocus ? (
+                          <IconButton
+                            onMouseDown={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setGroupName("");
+                            }}
+                          >
+                            <CancelIcon
+                              sx={{
+                                width: "20px",
+                                height: "20px",
+                                color: "#9CA3AF",
+                                cursor: "default",
+                              }}
+                            />
+                          </IconButton>
+                        ) : (
+                          <></>
+                        ),
                       }}
                     />
                   </Box>
@@ -191,19 +212,16 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                 </Stack>
               )}
               {fakeGroupList &&
-                fakeGroupList.map((item, idx) => {
-                  const background =
-                    idx.toString() === select ? "#EBF5FF" : "#FFF";
-                  const color =
-                    idx.toString() === select ? "#1C64F2" : "#D1D5DB";
-                  const fontColor =
-                    idx.toString() === select ? "#1C64F2" : "#111928";
+                fakeGroupList.map((item) => {
+                  const background = item.id === select ? "#EBF5FF" : "#FFF";
+                  const color = item.id === select ? "#1C64F2" : "#D1D5DB";
+                  const fontColor = item.id === select ? "#1C64F2" : "#111928";
                   const detailFontColor =
-                    idx.toString() === select ? "#1C64F2" : "#6B7280";
-                  if (idx === updateGroup) {
+                    item.id === select ? "#1C64F2" : "#6B7280";
+                  if (item.id === updateGroup) {
                     return (
                       <Stack
-                        key={idx}
+                        key={item.id}
                         sx={{
                           flexDirection: "row",
                           justifyContent: "space-between",
@@ -228,11 +246,13 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                             sx={{ width: "32px", height: "32px" }}
                           />
                           <TextField
-                            value={groupName}
+                            value={editGroupName}
                             onChange={(e) => {
                               const newGroupName = e.target.value as string;
-                              setGroupName(newGroupName);
+                              setEditGroupName(newGroupName);
                             }}
+                            onFocus={() => setFormFocus(true)}
+                            onBlur={() => setFormFocus(false)}
                             InputProps={{
                               sx: {
                                 width: "350px",
@@ -241,6 +261,26 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                                 fontWeight: "400px",
                                 lineHeight: "26px",
                               },
+                              endAdornment: formFocus ? (
+                                <IconButton
+                                  onMouseDown={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    setEditGroupName("");
+                                  }}
+                                >
+                                  <CancelIcon
+                                    sx={{
+                                      width: "20px",
+                                      height: "20px",
+                                      color: "#9CA3AF",
+                                      cursor: "default",
+                                    }}
+                                  />
+                                </IconButton>
+                              ) : (
+                                <></>
+                              ),
                             }}
                           />
                         </Box>
@@ -284,13 +324,13 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                             }}
                             onClick={() => {
                               const newGroup = fakeGroupList.map((item) =>
-                                item.id === idx
-                                  ? { ...item, title: groupName }
+                                item.id === updateGroup
+                                  ? { ...item, title: editGroupName }
                                   : item
                               );
                               setFakeGroupList(newGroup);
                               setUpdateGroup(-1);
-                              setGroupName("");
+                              setEditGroupName("");
                             }}
                           >
                             저장
@@ -301,7 +341,7 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                   } else {
                     return (
                       <Stack
-                        key={idx}
+                        key={item.id}
                         sx={{
                           flexDirection: "row",
                           justifyContent: "space-between",
@@ -318,7 +358,8 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                           background: background,
                         }}
                         onClick={() => {
-                          handleSelected(idx.toString());
+                          console.log("focus됨");
+                          handleSelected(item.id);
                         }}
                       >
                         <Box
@@ -448,9 +489,10 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                                 sx={{
                                   ...popOverStyle,
                                 }}
-                                onClick={() => {
+                                onClick={(e) => {
+                                  e.stopPropagation();
                                   setAnchorElement(null);
-                                  setUpdateGroup(idx);
+                                  setUpdateGroup(select);
                                 }}
                               >
                                 {`이름 바꾸기`}
@@ -459,7 +501,8 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                                 sx={{
                                   ...popOverStyle,
                                 }}
-                                onClick={() => {
+                                onClick={(e) => {
+                                  e.stopPropagation();
                                   setAnchorElement(null);
                                   setOpenDeleteDialog(true);
                                 }}
@@ -503,54 +546,45 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
           open={openDeleteDialog}
           sx={{
             "& .MuiDialog-paper": {
-              width: "500px",
+              width: "360px",
               height: "212px",
               bgcolor: "#FFFFFF",
             },
           }}
         >
-          <DialogTitle
-            display="flex"
-            gap="10px"
-            height="32px"
-            sx={{ padding: "24px" }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                background: "#FDF2F2",
-                borderRadius: "50%",
-                padding: "6px",
-              }}
-            >
-              <ReportProblemOutlinedIcon sx={{ color: "#F05252" }} />
-            </Box>
-
+          <DialogTitle display="flex">
             <Stack gap="10px">
-              <Stack height="32px" justifyContent="center">
-                <Typography
-                  fontWeight={600}
-                  fontSize="18px"
-                  color=" var(--character-title-85, rgba(0, 0, 0, 0.85)"
-                >
-                  {`‘영업 담당자’ 직무 그룹을 삭제`}
-                </Typography>
-              </Stack>
-              <Stack justifyContent="center">
-                <Typography fontWeight="400" fontSize="16px" color="#6B7280">
-                  {`직무 그룹을 삭제하시면, 직무 그룹 목록에서 사라지며 해당 그룹에 속한 사원의 직무 그룹은 ‘미지정’ 상태가 됩니다.`}
-                </Typography>
-              </Stack>
+              <Typography
+                textAlign="center"
+                fontWeight={600}
+                fontSize="18px"
+                color=" var(--character-title-85, rgba(0, 0, 0, 0.85)"
+              >
+                {`‘영업 담당자’ 직무 그룹을 삭제`}
+              </Typography>
+
+              <Typography
+                textAlign="center"
+                fontWeight="400"
+                fontSize="16px"
+                color="#6B7280"
+              >
+                {`직무 그룹을 삭제하시면, 직무 그룹 목록에서 사라지며 해당 그룹에 속한 사원의 직무 그룹은 ‘미지정’ 상태가 됩니다.`}
+              </Typography>
             </Stack>
           </DialogTitle>
 
-          <DialogActions sx={{ flex: 1, p: "16px 24px" }}>
+          <DialogActions
+            sx={{
+              flex: 1,
+              padding: "0px 20px 20px 20px",
+              height: "56px",
+            }}
+          >
             <Button
               sx={{
-                width: "80px",
-                height: "38px",
+                width: "154px",
+                height: "36px",
                 bgcolor: "#F9FAFB",
                 borderRadius: "6px",
                 border: "1px solid #D1D5DB",
@@ -568,7 +602,8 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
             </Button>
             <Button
               sx={{
-                height: "38px",
+                width: "154px",
+                height: "36px",
                 bgcolor: "#F05252",
                 borderRadius: "6px",
                 padding: "9px 16px",

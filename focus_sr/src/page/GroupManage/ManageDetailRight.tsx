@@ -135,7 +135,7 @@ export const ManageDetailRight: React.FC<any> = React.forwardRef<any, any>(
                       sx={{
                         padding: "var(--spacing-4, 4px) 8px",
                         borderRadius: "var(--spacing-16, 16px)",
-                        border: "#76A9FA",
+                        border: "1px solid #76A9FA",
                         background: "#EBF5FF",
                       }}
                     >

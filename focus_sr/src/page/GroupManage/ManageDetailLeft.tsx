@@ -65,14 +65,15 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
       },
     ];
 
+    const groupName = "영업 담당자";
     const [query, setQuery] = React.useState("");
-    const [buttonDisabled, setButtonDisabled] = React.useState(true);
-    const [managerList, setManagerList] = React.useState<number[]>([]);
-    const [openDialog, setOpenDialog] = React.useState(false);
-    const [openDialog2, setOpenDialog2] = React.useState(false);
-    const [openDialog3, setOpenDialog3] = React.useState(false);
-    const [moveButtonDisabled, setMoveButtonDisabled] = React.useState(false);
-    const [select, setSelect] = React.useState<string>("");
+    const [buttonDisabled, setButtonDisabled] = React.useState(true); //이동,삭제버튼 둘다
+    const [managerList, setManagerList] = React.useState<number[]>([]); //선택한매니저
+    const [openDialog, setOpenDialog] = React.useState(false); //삭제
+    const [openDialog2, setOpenDialog2] = React.useState(false); //이동
+    const [openDialog3, setOpenDialog3] = React.useState(false); //이동버튼 클릭후 매니저 선택후 확인버튼
+    const [moveButtonDisabled, setMoveButtonDisabled] = React.useState(true);
+    const [select, setSelect] = React.useState<number>(-1); //구성원 이동 다이얼로그에서 선택한 직무그룹
 
     React.useEffect(() => {
       if (managerList.length === 0) setButtonDisabled(true);
@@ -83,17 +84,20 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
       if (managerList.some((item) => item === idx)) {
         const newManagerList = managerList.filter((item) => item !== idx);
         setManagerList(newManagerList);
-        console.log(newManagerList);
       } else {
         const newManagerList = [...managerList, idx];
         setManagerList(newManagerList);
-        console.log(newManagerList);
       }
     };
 
-    const handleSelected = (idx: string) => {
+    const handleSelected = (idx: number) => {
       setSelect(idx);
     };
+
+    React.useEffect(() => {
+      if (select !== -1) setMoveButtonDisabled(false);
+      else setMoveButtonDisabled(true);
+    }, [select]);
 
     return (
       <div className={className} ref={ref}>
@@ -145,12 +149,6 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
                 const newQuery = e.target.value as string;
                 setQuery(newQuery);
               }}
-              /* onKeyDown={e => {
-                            if (e.key === 'Enter') {
-                                handleTableSubmit();
-                            }
-                        }} */
-
               InputProps={{
                 endAdornment: <SearchIcon sx={{ color: "#9CA3AF" }} />,
                 sx: {
@@ -300,39 +298,19 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
             </Stack>
           </Stack>
         </Stack>
+        {/**삭제버튼 다이얼로그 */}
         <Dialog
           open={openDialog}
           sx={{
             "& .MuiDialog-paper": {
-              width: "500px",
-              height: "186px",
+              width: "360px",
               bgcolor: "#FFFFFF",
             },
           }}
         >
-          <DialogTitle
-            display="flex"
-            gap="10px"
-            height="32px"
-            sx={{ padding: "24px" }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                background: "#FDF2F2",
-                borderRadius: "50%",
-                padding: "6px",
-              }}
-            >
-              <WarningAmberIcon
-                sx={{ width: "20px", height: "20px", color: "#F05252" }}
-              />
-            </Box>
-
-            <Stack gap="14px">
-              <Stack height="32px" justifyContent="center">
+          <DialogTitle display="flex">
+            <Stack sx={{ border: "1px solid black" }}>
+              <Stack sx={{ height: "64px" }}>
                 <Typography
                   fontWeight={600}
                   fontSize="18px"
@@ -343,22 +321,35 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
                     fakeManagerList[managerList[0]].name
                   } ${
                     managerList.length < 2 ? "를" : "외 n명을"
-                  } '영업 담당자' 직무 그룹에서 삭제`}
+                  } '${groupName}' 직무 그룹에서 삭제`}
                 </Typography>
               </Stack>
-              <Stack height="32px" justifyContent="center">
-                <Typography fontWeight="400" fontSize="16px" color="#6B7280">
-                  {`사원을 삭제하시면, 해당 직무 그룹 목록에서 사라지며 해당 사원의 직무 그룹은 ‘미지정’ 상태가 됩니다.`}
+
+              <Stack sx={{ height: "72px" }}>
+                <Typography
+                  textAlign="center"
+                  fontWeight="400"
+                  fontSize="14px"
+                  color="#6B7280"
+                >
+                  {`사원 삭제 시 해당 직무 그룹 목록에서 사라지며 해당 사원의 직무 그룹은 ‘미지정’ 상태가 됩니다`}
                 </Typography>
               </Stack>
             </Stack>
           </DialogTitle>
 
-          <DialogActions sx={{ flex: 1, padding: "16px 24px" }}>
+          <DialogActions
+            sx={{
+              flex: 1,
+              padding: "0px 20px 20px 20px",
+              boxSizing: "border-box",
+              height: "56px",
+            }}
+          >
             <Button
               sx={{
-                width: "80px",
-                height: "38px",
+                width: "154px",
+                height: "36px",
                 bgcolor: "#F9FAFB",
                 borderRadius: "6px",
                 boxShadow: "0 0 0 1px #D1D5DB inset",
@@ -374,8 +365,8 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
             </Button>
             <Button
               sx={{
-                width: "80px",
-                height: "38px",
+                width: "154px",
+                height: "36px",
                 bgcolor: "#F05252",
                 borderRadius: "6px",
                 fontWeight: 600,
@@ -386,10 +377,11 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
                 setOpenDialog(false);
               }}
             >
-              나가기
+              삭제
             </Button>
           </DialogActions>
         </Dialog>
+        {/**이동 버튼 다이얼로그 */}
         <Dialog
           open={openDialog2}
           sx={{
@@ -425,12 +417,9 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
               >
                 {fakeGroupList &&
                   fakeGroupList.map((item, idx) => {
-                    const background =
-                      idx.toString() === select ? "#EBF5FF" : "#FFF";
-                    const color =
-                      idx.toString() === select ? "#1C64F2" : "#D1D5DB";
-                    const fontColor =
-                      idx.toString() === select ? "#1C64F2" : "#111928";
+                    const background = idx === select ? "#EBF5FF" : "#FFF";
+                    const color = idx === select ? "#1C64F2" : "#D1D5DB";
+                    const fontColor = idx === select ? "#1C64F2" : "#111928";
                     return (
                       <Stack
                         key={idx}
@@ -447,7 +436,7 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
                           gap: "10px",
                         }}
                         onClick={() => {
-                          handleSelected(idx.toString());
+                          handleSelected(idx);
                         }}
                       >
                         <PeopleAltOutlinedIcon
@@ -523,6 +512,7 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
               }}
               onClick={() => {
                 setOpenDialog2(false);
+                setSelect(-1);
               }}
             >
               취소
@@ -546,65 +536,49 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
             </Button>
           </DialogActions>
         </Dialog>
+        {/**이동 버튼 확인 다이얼로그 */}
         <Dialog
           open={openDialog3}
           sx={{
             "& .MuiDialog-paper": {
-              width: "500px",
-              height: "186px",
+              width: "360px",
               bgcolor: "#FFFFFF",
             },
           }}
         >
-          <DialogTitle
-            display="flex"
-            gap="10px"
-            height="32px"
-            sx={{ padding: "24px" }}
-          >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                background: "#FDF2F2",
-                borderRadius: "50%",
-                padding: "6px",
-              }}
-            >
-              <WarningAmberIcon
-                sx={{ width: "20px", height: "20px", color: "#F05252" }}
-              />
-            </Box>
+          <DialogTitle display="flex">
+            <Stack gap="10px">
+              <Typography
+                fontWeight={600}
+                fontSize="18px"
+                color=" var(--character-title-85, rgba(0, 0, 0, 0.85)"
+                textAlign="center"
+              >
+                {`${
+                  managerList.length > 0 && fakeManagerList[managerList[0]].name
+                }${managerList.length < 2 ? "" : "외 n명"}의 직무 그룹을 ‘${
+                  select === -1 ? "" : fakeGroupList[select].title
+                }’로 변경`}
+              </Typography>
 
-            <Stack gap="14px">
-              <Stack height="32px" justifyContent="center">
-                <Typography
-                  fontWeight={600}
-                  fontSize="18px"
-                  color=" var(--character-title-85, rgba(0, 0, 0, 0.85)"
-                >
-                  {`${
-                    managerList.length > 0 &&
-                    fakeManagerList[managerList[0]].name
-                  }${managerList.length < 2 ? "" : "외 n명"}의 직무 그룹을 ‘${
-                    fakeGroupList[Number(select)].title
-                  }’로 변경`}
-                </Typography>
-              </Stack>
-              <Stack height="32px" justifyContent="center">
-                <Typography fontWeight="400" fontSize="16px" color="#6B7280">
-                  {`해당 직무 그룹 목록에서 사라지며, 변경된 직무 그룹의 권한 설정값으로 즉시 적용됩니다.`}
-                </Typography>
-              </Stack>
+              <Typography
+                fontWeight="400"
+                fontSize="14px"
+                color="#6B7280"
+                textAlign="center"
+              >
+                {`해당 직무 그룹 목록에서 사라지며, 변경된 직무 그룹의 권한 설정값으로 즉시 적용됩니다.`}
+              </Typography>
             </Stack>
           </DialogTitle>
 
-          <DialogActions sx={{ flex: 1, padding: "16px 24px" }}>
+          <DialogActions
+            sx={{ flex: 1, padding: "0px 20px 20px 20px", height: "56px" }}
+          >
             <Button
               sx={{
-                width: "80px",
-                height: "38px",
+                width: "154px",
+                height: "36px",
                 bgcolor: "#F9FAFB",
                 borderRadius: "6px",
                 boxShadow: "0 0 0 1px #D1D5DB inset",
@@ -620,8 +594,8 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
             </Button>
             <Button
               sx={{
-                width: "80px",
-                height: "38px",
+                width: "154px",
+                height: "36px",
                 bgcolor: "#F05252",
                 borderRadius: "6px",
                 fontWeight: 600,
@@ -630,9 +604,11 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
               }}
               onClick={() => {
                 setOpenDialog3(false);
+                setOpenDialog2(false);
+                setSelect(-1);
               }}
             >
-              나가기
+              변경
             </Button>
           </DialogActions>
         </Dialog>

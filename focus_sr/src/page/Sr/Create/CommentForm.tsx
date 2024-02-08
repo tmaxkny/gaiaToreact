@@ -16,11 +16,11 @@ const CommentForm: React.FC<any> = React.forwardRef<any, any>(
       fontSize: "12px",
       color: "#1C64F2",
     };
-    const [files, setFiles] = React.useState<TFile[]>(); //image url
+    const [files, setFiles] = React.useState<TFile>(); //image url
 
-    const deleteFile = (id: number) => {
-      const newFiles = files?.filter((item) => item.id !== id);
-      setFiles(newFiles);
+    const deleteFile = () => {
+      //const newFiles = files?.filter((item) => item.id !== id);
+      setFiles({});
     };
 
     const uploadFile = (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,12 +29,8 @@ const CommentForm: React.FC<any> = React.forwardRef<any, any>(
 
       if (newFile) {
         const url = window.URL.createObjectURL(newFile);
-        const id = (files?.length || 0) + 1;
-        setFiles((prev) => [
-          ...(prev || []),
-          { id: id, name: newFile.name, src: url },
-        ]);
-        evt.target.value = ""; 
+        setFiles({ id: 1, name: newFile.name, src: url });
+        evt.target.value = "";
       }
     };
 
@@ -79,39 +75,33 @@ const CommentForm: React.FC<any> = React.forwardRef<any, any>(
             >
               파일 업로드
             </Typography>
-            {files &&
-              files.map((item) => {
-                return (
-                  <Box
-                    key={item.id}
-                    sx={{
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      gap: "8px",
-                      padding: "7px 10px",
-                      background: "#FFFFFF",
-                      border: "1px solid #A4CAFE",
-                      borderRadius: "4px",
-                      boxSizing: "border-box",
-                      height: "32px",
-                    }}
-                  >
-                    <Typography sx={{ ...fileFontStyle }}>
-                      {item.name}
-                    </Typography>
-                    <FileDownloadOutlinedIcon
-                      sx={{ width: "12px", height: "12px", color: "#1C64F2" }}
-                    />
-                    <ClearOutlinedIcon
-                      sx={{ width: "12px", height: "12px", color: "#1C64F2" }}
-                      onClick={() => {
-                        deleteFile(item.id);
-                      }}
-                    />
-                  </Box>
-                );
-              })}
+            {files && (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "7px 10px",
+                  background: "#FFFFFF",
+                  border: "1px solid #A4CAFE",
+                  borderRadius: "4px",
+                  boxSizing: "border-box",
+                  height: "32px",
+                }}
+              >
+                <Typography sx={{ ...fileFontStyle }}>{files.name}</Typography>
+                <FileDownloadOutlinedIcon
+                  sx={{ width: "12px", height: "12px", color: "#1C64F2" }}
+                />
+                <ClearOutlinedIcon
+                  sx={{ width: "12px", height: "12px", color: "#1C64F2" }}
+                  onClick={() => {
+                    deleteFile();
+                  }}
+                />
+              </Box>
+            )}
             <Stack direction="column" gap="12px">
               <Button
                 component="label"

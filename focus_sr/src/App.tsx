@@ -22,7 +22,7 @@ import SrTechPage2 from "./page/Sr/SrTechPage2";
 function App() {
   return (
     <>
-      <ManageDetail />
+      <SrTechPage2 />
     </>
   );
 }

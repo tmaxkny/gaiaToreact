@@ -42,7 +42,7 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
     const [openDialog, setOpenDialog] = React.useState(false); //처리완료 버튼 클릭시 다이얼로그
     const [perPage, setperPage] = React.useState(10); //n개씩 보기
     const [error, setError] = React.useState("");
-    const [managerList, setManagerList] = React.useState<number[]>([]); //drawer 체크한 매니저 리스트
+    const [manager, setManager] = React.useState<number>(-1); //drawer 체크한 매니저
     const [managerListAll, setManagerListAll] = React.useState(false); //매니저 체크박스 all
     const [finishButtonDiabled, setFinishButtonDiabled] = React.useState(true); //완료 버튼
     const [managerDeginateDisabled, setManagerDeginateDisabled] =
@@ -60,9 +60,12 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
         color: string;
 
         backgroundColor: string;
+        width?: string;
+        height?: string;
       };
     };
 
+    //테이블 chip 색깔
     const statusColor: TStatusColor = {
       High: {
         color: "#E02424",
@@ -115,28 +118,19 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
       },
     };
 
-    const TheaderCellStyle = {
-      backgroundColor: "#F3F4F6",
-      fontWeight: "600",
-      borderBottom: "1px solid #E5E7EB",
-      borderTop: "1px solid #E5E7EB",
-      color: "#111928",
-      fontSize: "14px",
-      padding: "16px",
-      lineHeight: "20px",
-      whiteSpace: "nowrap",
+    const snackBarColor: TStatusColor = {
+      성공: {
+        color: "#FFFFFF",
+        backgroundColor: "#00C572B2",
+      },
+      실패: {
+        color: "#FFFFFF",
+        backgroundColor: "#F01000B2",
+      },
     };
 
-    const TcellStyle = {
-      whiteSpace: "nowrap",
-    };
-
-    const TfontStyle = {
-      color: "#111928",
-      fontSize: "14px",
-      fontWeight: "400",
-      lineHeight: "20px",
-    };
+    const ManagerRegisterStatus = "담당자 지정이 완료되었습니다. ";
+    const FinishStatus = "처리 완료되었습니다.";
 
     const tableData = [
       {
@@ -219,39 +213,7 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
 
     const tableLength = tableData.length;
 
-    const handlePageChange = (
-      _event: React.ChangeEvent<unknown>,
-      currentPage: number
-    ) => {
-      setPage(currentPage);
-    };
-
-    const handleCheckbox = (idx: number) => {
-      if (checkboxs.some((item) => item === idx)) {
-        const newCheckboxs = checkboxs.filter((item) => item !== idx);
-        setCheckboxs(newCheckboxs);
-      } else {
-        const newCheckboxs = [...checkboxs, idx];
-        setCheckboxs(newCheckboxs);
-      }
-    };
-
-    const handleCheckboxAll = () => {
-      if (checkboxAll) setCheckboxs([]);
-      else setCheckboxs([...Array(tableLength).keys()]);
-      setCheckboxAll(!checkboxAll);
-    };
-
-    const headerCellStyle = {
-      backgroundColor: "#F3F4F6",
-      fontWeight: "600",
-    };
-    const cellStyle = {
-      color: "#111928",
-      fontSize: "14px",
-      padding: "0px",
-    };
-
+    //drawer내부 테이블 데이터
     const dummyData = [
       {
         name: "서지혜",
@@ -329,7 +291,66 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
 
     const managerLength = dummyData.length;
 
-    const handleManager = (idx: number) => {
+    //테이블 관련 css
+    const TheaderCellStyle = {
+      backgroundColor: "#F3F4F6",
+      fontWeight: "600",
+      borderBottom: "1px solid #E5E7EB",
+      borderTop: "1px solid #E5E7EB",
+      color: "#111928",
+      fontSize: "14px",
+      padding: "16px",
+      lineHeight: "20px",
+      whiteSpace: "nowrap",
+    };
+
+    const TcellStyle = {
+      whiteSpace: "nowrap",
+    };
+
+    const TfontStyle = {
+      color: "#111928",
+      fontSize: "14px",
+      fontWeight: "400",
+      lineHeight: "20px",
+    };
+
+    //drawer 내부 테이블 css
+    const headerCellStyle = {
+      backgroundColor: "#F3F4F6",
+      fontWeight: "600",
+    };
+    const cellStyle = {
+      color: "#111928",
+      fontSize: "14px",
+      padding: "0px",
+    };
+
+    const handlePageChange = (
+      _event: React.ChangeEvent<unknown>,
+      currentPage: number
+    ) => {
+      setPage(currentPage);
+    };
+
+    const handleCheckbox = (idx: number) => {
+      if (checkboxs.some((item) => item === idx)) {
+        const newCheckboxs = checkboxs.filter((item) => item !== idx);
+        setCheckboxs(newCheckboxs);
+      } else {
+        const newCheckboxs = [...checkboxs, idx];
+        setCheckboxs(newCheckboxs);
+      }
+    };
+
+    const handleCheckboxAll = () => {
+      if (checkboxAll) setCheckboxs([]);
+      else setCheckboxs([...Array(tableLength).keys()]);
+      setCheckboxAll(!checkboxAll);
+    };
+
+    //drawer 체크박스
+    /*     const handleManager = (idx: number) => {
       if (managerList.some((item) => item === idx)) {
         const newManagerList = managerList.filter((item) => item !== idx);
         setManagerList(newManagerList);
@@ -337,14 +358,15 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
         const newManagerList = [...managerList, idx];
         setManagerList(newManagerList);
       }
-    };
+    }; */
 
-    const handleManagerAll = () => {
+    /*     const handleManagerAll = () => {
       if (managerListAll) setManagerList([]);
       else setManagerList([...Array(managerLength).keys()]);
       setManagerListAll(!managerListAll);
-    };
+    }; */
 
+    //담당자 지정 스낵바
     const handleVisible = () => {
       setManagerSnackVisible(true);
       setTimeout(() => {
@@ -352,6 +374,7 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
       }, 2000);
     };
 
+    //처리완료 스낵바
     const handleVisible2 = () => {
       setFinishSnackVisible(true);
       setTimeout(() => {
@@ -360,9 +383,9 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
     };
 
     React.useEffect(() => {
-      if (managerList.length > 0) setDrawerButtonDiabled(false);
+      if (manager !== -1) setDrawerButtonDiabled(false);
       else setDrawerButtonDiabled(true);
-    }, [managerList]);
+    }, [manager]);
 
     React.useEffect(() => {
       if (checkboxs.length > 0) {
@@ -706,48 +729,30 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
               open={openDialog}
               sx={{
                 "& .MuiDialog-paper": {
-                  width: "500px",
-                  height: "186px",
+                  width: "360px",
+                  height: "172px",
                   bgcolor: "#FFFFFF",
                 },
               }}
             >
-              <DialogTitle
-                display="flex"
-                gap="10px"
-                height="32px"
-                sx={{ padding: "24px" }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    background: "#EBF5FF",
-                    borderRadius: "50%",
-                    padding: "6px",
-                  }}
-                >
-                  <CheckIcon
-                    sx={{ width: "20px", height: "20px", color: "#3F83F8" }}
-                  />
-                </Box>
-
-                <Stack gap="10px">
-                  <Stack height="32px" justifyContent="center">
+              <DialogTitle display="flex" sx={{ padding: "0px" }}>
+                <Stack flex="1">
+                  <Stack height="64px" alignItems="center">
                     <Typography
                       fontWeight={600}
                       fontSize="18px"
-                      color=" var(--character-title-85, rgba(0, 0, 0, 0.85)"
+                      color="#202124"
+                      marginTop="30px"
                     >
-                      답변 등록
+                      처리 완료
                     </Typography>
                   </Stack>
-                  <Stack height="32px" justifyContent="center">
+                  <Stack height="52px" alignItems="center">
                     <Typography
                       fontWeight="400"
-                      fontSize="16px"
-                      color="#6B7280"
+                      fontSize="14px"
+                      color="#374151"
+                      lineHeight="20px"
                     >
                       해당 답변을 등록하겠습니까?
                     </Typography>
@@ -755,28 +760,18 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
                 </Stack>
               </DialogTitle>
 
-              <DialogActions sx={{ flex: 1, p: "0px 24px" }}>
+              <DialogActions
+                sx={{
+                  flex: 1,
+                  padding: "0px 20px 20px 20px",
+                  height: "56px",
+                  boxSizing: "border-box",
+                }}
+              >
                 <Button
                   sx={{
-                    width: "81px",
-                    height: "38px",
-                    bgcolor: "#1C64F2",
-                    borderRadius: "6px",
-                    fontWeight: 600,
-                    fontSize: "14px",
-                    color: "#FFFFFF",
-                  }}
-                  onClick={() => {
-                    handleVisible2();
-                    setOpenDialog(false);
-                  }}
-                >
-                  등록하기
-                </Button>
-                <Button
-                  sx={{
-                    width: "57px",
-                    height: "38px",
+                    width: "154px",
+                    height: "36px",
                     bgcolor: "#F9FAFB",
                     borderRadius: "6px",
                     boxShadow: "0 0 0 1px #D1D5DB inset",
@@ -789,6 +784,23 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
                   }}
                 >
                   취소
+                </Button>
+                <Button
+                  sx={{
+                    width: "154px",
+                    height: "36px",
+                    bgcolor: "#1C64F2",
+                    borderRadius: "6px",
+                    fontWeight: 600,
+                    fontSize: "14px",
+                    color: "#FFFFFF",
+                  }}
+                  onClick={() => {
+                    handleVisible2();
+                    setOpenDialog(false);
+                  }}
+                >
+                  확인
                 </Button>
               </DialogActions>
             </Dialog>
@@ -803,7 +815,10 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
               }}
               anchor="right"
               open={openDrawer}
-              onClose={() => setOpenDrawer(false)}
+              onClose={() => {
+                setOpenDrawer(false);
+                setManager(-1);
+              }}
             >
               <Stack
                 direction="row"
@@ -852,12 +867,7 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
                           }}
                         >
                           <TableCell>
-                            <Checkbox
-                              checked={managerLength === managerList.length}
-                              onClick={() => {
-                                handleManagerAll();
-                              }}
-                            />
+                            <Checkbox />
                           </TableCell>
                           <TableCell>이름</TableCell>
                           <TableCell>이메일</TableCell>
@@ -874,10 +884,8 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
                             >
                               <TableCell>
                                 <Checkbox
-                                  checked={managerList.some(
-                                    (item) => item === idx
-                                  )}
-                                  onClick={() => handleManager(idx)}
+                                  checked={idx === manager}
+                                  onClick={() => setManager(idx)}
                                 />
                               </TableCell>
                               <TableCell>{data.name}</TableCell>
@@ -907,20 +915,16 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
                       paddingLeft: "16px",
                       borderRadius: "6px",
                       border: "1px solid #E5E7EB",
-                      overflowY: "auto",
                     }}
                   >
-                    {managerList &&
-                      managerList.map((item) => {
-                        return (
-                          <Typography
-                            sx={{
-                              fontSize: "14px",
-                              color: "#111928",
-                            }}
-                          >{`${dummyData[item].name}/ ${dummyData[item].email}/ 운영진`}</Typography>
-                        );
-                      })}
+                    {manager !== -1 && (
+                      <Typography
+                        sx={{
+                          fontSize: "14px",
+                          color: "#111928",
+                        }}
+                      >{`${dummyData[manager].name}/ ${dummyData[manager].email}/ 운영진`}</Typography>
+                    )}
                   </Stack>
                 </Stack>
               </Stack>
@@ -956,7 +960,7 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
             <Snackbar
               ContentProps={{
                 sx: {
-                  background: "rgba(0, 197, 114, 0.70)",
+                  background: snackBarColor["성공"].backgroundColor,
                 },
               }}
               anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
@@ -975,7 +979,7 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
                       minWidth: "260px",
                     }}
                   >
-                    담당자 지정이 완료되었습니다.
+                    {ManagerRegisterStatus}
                   </Typography>
                   <ClearIcon
                     sx={{ width: "20px", height: "20px", color: "#FFFFFF" }}
@@ -986,7 +990,7 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
             <Snackbar
               ContentProps={{
                 sx: {
-                  background: "rgba(0, 197, 114, 0.70)",
+                  background: snackBarColor["성공"].backgroundColor,
                 },
               }}
               anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
@@ -1005,7 +1009,7 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
                       minWidth: "260px",
                     }}
                   >
-                    처리완료 되었습니다.
+                    {FinishStatus}
                   </Typography>
                   <ClearIcon
                     sx={{ width: "20px", height: "20px", color: "#FFFFFF" }}

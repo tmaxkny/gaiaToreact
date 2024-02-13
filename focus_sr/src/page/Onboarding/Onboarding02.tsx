@@ -3,8 +3,8 @@ import { Stack, Checkbox, Typography, Button } from "@mui/material";
 import * as MUI_ICON from "@mui/icons-material";
 
 const Category: React.FC<any> = React.forwardRef<any, any>(
-  ({ className, children, moveToNext }, ref) => {
-    const [checkedList, setCheckedList] = React.useState<number[]>([]);
+  ({ className, children, moveToBack, moveToNext }, ref) => {
+    const [categoryList, setCategoryList] = React.useState<number[]>([]);
 
     const ITEM_ARRAY = [
       { id: 1, title: "실물 배송 상품", subTitle: "(예: 옷, 생활용품)" },
@@ -18,10 +18,10 @@ const Category: React.FC<any> = React.forwardRef<any, any>(
     ];
 
     const handleCheckedList = (id: number) => {
-      if (checkedList.includes(id)) {
-        setCheckedList(checkedList.filter((el) => el !== id));
+      if (categoryList.includes(id)) {
+        setCategoryList(categoryList.filter((el) => el !== id));
       } else {
-        setCheckedList([...checkedList, id]);
+        setCategoryList([...categoryList, id]);
       }
     };
     return (
@@ -70,18 +70,18 @@ const Category: React.FC<any> = React.forwardRef<any, any>(
                   width: "305px",
                   height: "92px",
                   backgroundColor: `${
-                    checkedList.includes(el.id) ? "#EBF5FF" : "#F9FAFB"
+                    categoryList.includes(el.id) ? "#EBF5FF" : "#F9FAFB"
                   }`,
                   border: "1px solid",
                   borderColor: `${
-                    checkedList.includes(el.id) ? "#3F83F8" : "#D1D5DB"
+                    categoryList.includes(el.id) ? "#3F83F8" : "#D1D5DB"
                   }`,
                   padding: "20px",
                   cursor: "pointer",
                   borderRadius: "6px",
                   "div > p": {
                     color: `${
-                      checkedList.includes(el.id) ? "#3F83F8" : "#111928"
+                      categoryList.includes(el.id) ? "#3F83F8" : "#111928"
                     }`,
                     fontWeight: "600",
                   },
@@ -91,7 +91,7 @@ const Category: React.FC<any> = React.forwardRef<any, any>(
                   onChange={() => {
                     handleCheckedList(el.id);
                   }}
-                  checked={checkedList.includes(el.id)}
+                  checked={categoryList.includes(el.id)}
                   disableRipple
                   icon={<MUI_ICON.RadioButtonUnchecked />}
                   checkedIcon={<MUI_ICON.RadioButtonChecked />}
@@ -116,18 +116,18 @@ const Category: React.FC<any> = React.forwardRef<any, any>(
                   width: "305px",
                   height: "92px",
                   backgroundColor: `${
-                    checkedList.includes(el.id) ? "#EBF5FF" : "#F9FAFB"
+                    categoryList.includes(el.id) ? "#EBF5FF" : "#F9FAFB"
                   }`,
                   border: "1px solid",
                   borderColor: `${
-                    checkedList.includes(el.id) ? "#3F83F8" : "#D1D5DB"
+                    categoryList.includes(el.id) ? "#3F83F8" : "#D1D5DB"
                   }`,
                   padding: "20px",
                   cursor: "pointer",
                   borderRadius: "6px",
                   "div > p": {
                     color: `${
-                      checkedList.includes(el.id) ? "#3F83F8" : "#111928"
+                      categoryList.includes(el.id) ? "#3F83F8" : "#111928"
                     }`,
                     fontWeight: "600",
                   },
@@ -137,7 +137,7 @@ const Category: React.FC<any> = React.forwardRef<any, any>(
                   onChange={() => {
                     handleCheckedList(el.id);
                   }}
-                  checked={checkedList.includes(el.id)}
+                  checked={categoryList.includes(el.id)}
                   disableRipple
                   icon={<MUI_ICON.RadioButtonUnchecked />}
                   checkedIcon={<MUI_ICON.RadioButtonChecked />}
@@ -172,12 +172,13 @@ const Category: React.FC<any> = React.forwardRef<any, any>(
                 fontSize: "16px",
                 border: "1px solid #A4CAFE",
               }}
+              onClick={moveToBack}
             >
               <MUI_ICON.ArrowBack sx={{ marginRight: "4px" }} />
               이전단계
             </Button>
             <Button
-              disabled={checkedList.length === 0}
+              disabled={categoryList.length === 0}
               onClick={moveToNext}
               sx={{
                 width: "116px",

@@ -3,7 +3,7 @@ import { Stack, Checkbox, Typography, Button } from "@mui/material";
 import * as MUI_ICON from "@mui/icons-material";
 
 const Type: React.FC<any> = React.forwardRef<any, any>(
-  ({ className, children, moveToNext }, ref) => {
+  ({ className, children, moveToBack, moveToNext }, ref) => {
     const [checkedTopList, setCheckedTopList] = React.useState<number[]>([]);
     const [checkedBottomList, setCheckedBottomList] = React.useState<number[]>(
       []
@@ -332,6 +332,7 @@ const Type: React.FC<any> = React.forwardRef<any, any>(
                   fontSize: "16px",
                   border: "1px solid #A4CAFE",
                 }}
+                onClick={moveToBack}
               >
                 <MUI_ICON.ArrowBack sx={{ marginRight: "4px" }} />
                 이전단계

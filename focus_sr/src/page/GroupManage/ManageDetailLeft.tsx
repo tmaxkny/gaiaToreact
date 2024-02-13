@@ -14,7 +14,6 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import SearchIcon from "@mui/icons-material/Search";
 import PeopleAltOutlinedIcon from "@mui/icons-material/PeopleAltOutlined";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 
 export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
   ({ className, children }, ref) => {
@@ -24,7 +23,7 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
       email: string;
       position: string;
     };
-    const fakeManagerList: managerListType[] = [
+    const detailManagerList: managerListType[] = [
       {
         id: 0,
         name: "김나연",
@@ -41,7 +40,7 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
       { id: 3, name: "김유나", email: "20240117@tmax.co.kr", position: "사원" },
       { id: 4, name: "김하늬", email: "20240117@tmax.co.kr", position: "사원" },
     ];
-    const fakeGroupList = [
+    const detailGroupList = [
       {
         id: 1,
         title: "영업담당자",
@@ -230,8 +229,8 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
                   </Button>
                 </Box>
               </Box>
-              {fakeManagerList &&
-                fakeManagerList.map((item, idx) => {
+              {detailManagerList &&
+                detailManagerList.map((item, idx) => {
                   const checked = managerList.some((item) => item === idx);
                   const background = checked ? "#EBF5FF" : "#FFFFFF";
                   const border = checked ? "#1C64F2" : "#D1D5DB";
@@ -308,9 +307,15 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
             },
           }}
         >
-          <DialogTitle display="flex">
-            <Stack sx={{ border: "1px solid black" }}>
-              <Stack sx={{ height: "64px" }}>
+          <DialogTitle display="flex" sx={{ padding: "0px" }}>
+            <Stack flex="1">
+              <Stack
+                sx={{
+                  alignItems: "center",
+                  padding: "30px 20px 10px 20px",
+                  boxSizing: "border-box",
+                }}
+              >
                 <Typography
                   fontWeight={600}
                   fontSize="18px"
@@ -318,14 +323,20 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
                 >
                   {`${
                     managerList.length > 0 &&
-                    fakeManagerList[managerList[0]].name
+                    detailManagerList[managerList[0]].name
                   } ${
                     managerList.length < 2 ? "를" : "외 n명을"
                   } '${groupName}' 직무 그룹에서 삭제`}
                 </Typography>
               </Stack>
 
-              <Stack sx={{ height: "72px" }}>
+              <Stack
+                sx={{
+                  alignItems: "center",
+                  padding: "0px 20px 32px 20px",
+                  boxSizing: "border-box",
+                }}
+              >
                 <Typography
                   textAlign="center"
                   fontWeight="400"
@@ -415,8 +426,8 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
                 alignItems="center"
                 sx={{ padding: "8px 24px", gap: "16px" }}
               >
-                {fakeGroupList &&
-                  fakeGroupList.map((item, idx) => {
+                {detailGroupList &&
+                  detailGroupList.map((item, idx) => {
                     const background = idx === select ? "#EBF5FF" : "#FFF";
                     const color = idx === select ? "#1C64F2" : "#D1D5DB";
                     const fontColor = idx === select ? "#1C64F2" : "#111928";
@@ -555,9 +566,10 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
                 textAlign="center"
               >
                 {`${
-                  managerList.length > 0 && fakeManagerList[managerList[0]].name
+                  managerList.length > 0 &&
+                  detailManagerList[managerList[0]].name
                 }${managerList.length < 2 ? "" : "외 n명"}의 직무 그룹을 ‘${
-                  select === -1 ? "" : fakeGroupList[select].title
+                  select === -1 ? "" : detailGroupList[select].title
                 }’로 변경`}
               </Typography>
 

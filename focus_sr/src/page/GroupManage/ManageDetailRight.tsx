@@ -149,7 +149,7 @@ export const ManageDetailRight: React.FC<any> = React.forwardRef<any, any>(
                       >
                         {item}
                       </Typography>
-                    </Box>
+                    </Box> 
                   );
                 })}
             </Box>

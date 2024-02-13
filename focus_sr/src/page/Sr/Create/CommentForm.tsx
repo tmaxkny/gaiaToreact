@@ -16,20 +16,31 @@ const CommentForm: React.FC<any> = React.forwardRef<any, any>(
       fontSize: "12px",
       color: "#1C64F2",
     };
+
+    const correctFileType = ["pdf", "jpeg", "png"];
     const [files, setFiles] = React.useState<TFile>(); //image url
 
     const deleteFile = () => {
       //const newFiles = files?.filter((item) => item.id !== id);
-      setFiles({});
+      setFiles(undefined);
     };
 
     const uploadFile = (evt: React.ChangeEvent<HTMLInputElement>) => {
       const newFiles = evt.target.files;
       const newFile = newFiles && newFiles[0];
+      console.log(newFile);
 
       if (newFile) {
         const url = window.URL.createObjectURL(newFile);
-        setFiles({ id: 1, name: newFile.name, src: url });
+        const fileDot = newFile.type.lastIndexOf("/");
+        const fileType = newFile.type
+          .substring(fileDot + 1, newFile.type.length)
+          .toLowerCase();
+        if (correctFileType.includes(fileType)) {
+          setFiles({ id: 1, name: newFile.name, src: url });
+        } else {
+          return null;
+        }
         evt.target.value = "";
       }
     };

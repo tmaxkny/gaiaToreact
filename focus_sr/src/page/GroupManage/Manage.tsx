@@ -17,8 +17,8 @@ import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 export const Manage: React.FC<any> = React.forwardRef<any, any>(
-  ({ className, children, onMoveDetail }, ref) => {
-    const [fakeGroupList, setFakeGroupList] = React.useState([
+  ({ className, children, moveToDetail }, ref) => {
+    const [groupList, setGroupList] = React.useState([
       {
         id: 0,
         title: "영업담당자",
@@ -64,14 +64,11 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
     const [formAble, setFormAble] = React.useState(false); //새 직무그룹 추가를 누르면 생기는 폼
     const [formFocus, setFormFocus] = React.useState(false); //추가, 수정 폼에서 clear아이콘
     const [updateGroup, setUpdateGroup] = React.useState<number>();
+    const isMaster: number = 2; // 마스터: 0, 부마스터:1 운연진: 2 사원: 3
 
     const handleSelected = (idx: number) => {
       setSelect(idx);
     };
-
-    React.useEffect(() => {
-      console.log(select);
-    }, [select]);
 
     return (
       <div className={className} ref={ref}>
@@ -84,7 +81,7 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
             gap: "16px",
           }}
         >
-          {!fakeGroupList ? (
+          {!groupList ? (
             <Typography
               sx={{
                 fontSize: "16px",
@@ -195,13 +192,13 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                       }}
                       onClick={() => {
                         const newGroup = {
-                          id: fakeGroupList.length,
+                          id: groupList.length,
                           title: groupName,
                           memberNum: "0",
                           detailTitle: "지정된 접근 가능 메뉴 없음",
                           isManager: false,
                         };
-                        setFakeGroupList([...fakeGroupList, newGroup]);
+                        setGroupList([...groupList, newGroup]);
                         setFormAble(false);
                         setGroupName("");
                       }}
@@ -211,8 +208,8 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                   </Box>
                 </Stack>
               )}
-              {fakeGroupList &&
-                fakeGroupList.map((item) => {
+              {groupList &&
+                groupList.map((item) => {
                   const background = item.id === select ? "#EBF5FF" : "#FFF";
                   const color = item.id === select ? "#1C64F2" : "#D1D5DB";
                   const fontColor = item.id === select ? "#1C64F2" : "#111928";
@@ -323,12 +320,12 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                               lineHeight: "18px",
                             }}
                             onClick={() => {
-                              const newGroup = fakeGroupList.map((item) =>
+                              const newGroup = groupList.map((item) =>
                                 item.id === updateGroup
                                   ? { ...item, title: editGroupName }
                                   : item
                               );
-                              setFakeGroupList(newGroup);
+                              setGroupList(newGroup);
                               setUpdateGroup(-1);
                               setEditGroupName("");
                             }}
@@ -358,7 +355,6 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                           background: background,
                         }}
                         onClick={() => {
-                          console.log("focus됨");
                           handleSelected(item.id);
                         }}
                       >
@@ -465,7 +461,7 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                             <MoreHorizOutlinedIcon />
                           </IconButton>
                           <Popover
-                            open={isOpened}
+                            open={isMaster !== 3 && isOpened}
                             anchorEl={anchorElement}
                             onClose={() => {
                               setAnchorElement(null);
@@ -485,35 +481,39 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
                                 justifyContent: "center",
                               }}
                             >
+                              {(isMaster === 0 || isMaster === 1) && (
+                                <Typography
+                                  sx={{
+                                    ...popOverStyle,
+                                  }}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setAnchorElement(null);
+                                    setUpdateGroup(select);
+                                  }}
+                                >
+                                  {`이름 바꾸기`}
+                                </Typography>
+                              )}
+                              {(isMaster === 0 || isMaster === 1) && (
+                                <Typography
+                                  sx={{
+                                    ...popOverStyle,
+                                  }}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setAnchorElement(null);
+                                    setOpenDeleteDialog(true);
+                                  }}
+                                >
+                                  {`그룹 삭제하기`}
+                                </Typography>
+                              )}
                               <Typography
                                 sx={{
                                   ...popOverStyle,
                                 }}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setAnchorElement(null);
-                                  setUpdateGroup(select);
-                                }}
-                              >
-                                {`이름 바꾸기`}
-                              </Typography>
-                              <Typography
-                                sx={{
-                                  ...popOverStyle,
-                                }}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setAnchorElement(null);
-                                  setOpenDeleteDialog(true);
-                                }}
-                              >
-                                {`그룹 삭제하기`}
-                              </Typography>
-                              <Typography
-                                sx={{
-                                  ...popOverStyle,
-                                }}
-                                onClick={onMoveDetail}
+                                onClick={moveToDetail}
                               >
                                 {`구성원 초대하기`}
                               </Typography>

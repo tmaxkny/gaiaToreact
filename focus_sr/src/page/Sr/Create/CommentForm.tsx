@@ -28,7 +28,6 @@ const CommentForm: React.FC<any> = React.forwardRef<any, any>(
     const uploadFile = (evt: React.ChangeEvent<HTMLInputElement>) => {
       const newFiles = evt.target.files;
       const newFile = newFiles && newFiles[0];
-      console.log(newFile);
 
       if (newFile) {
         const url = window.URL.createObjectURL(newFile);

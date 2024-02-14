@@ -15,7 +15,7 @@ import React from "react";
 
 const TargetTable: React.FC<any> = React.forwardRef<any, any>(
   ({ className, children }, ref) => {
-    const pageType = "ONSITE";
+    const pageType: string = "ONSITE";
 
     const dummyData = [
       {
@@ -250,7 +250,9 @@ const TargetTable: React.FC<any> = React.forwardRef<any, any>(
                   <TableCell sx={{ width: "410px" }}>회사</TableCell>
                   <TableCell sx={{ width: "410px" }}>이메일</TableCell>
                   <TableCell sx={{ width: "192px" }}>직급</TableCell>
-                  <TableCell sx={{ width: "192px" }}>상태</TableCell>
+                  {pageType !== "ONSITE" && (
+                    <TableCell sx={{ width: "192px" }}>상태</TableCell>
+                  )}
                 </TableRow>
               </TableHead>
               {(pageType as string) !== "BEFORE" && (
@@ -280,36 +282,38 @@ const TargetTable: React.FC<any> = React.forwardRef<any, any>(
                           <TableCell sx={{ width: "192px" }}>
                             {item.position}
                           </TableCell>
-                          <TableCell
-                            sx={{
-                              width: "192px",
-                              "& .MuiChip-root": {
-                                verticalAlign: "baseline",
-                              },
-                            }}
-                          >
-                            <Chip
-                              icon={
-                                <FiberManualRecord
-                                  sx={{
-                                    width: "8px",
-                                    "&.MuiChip-icon": {
-                                      color: statusColor[item.status]?.color,
-                                    },
-                                  }}
-                                />
-                              }
-                              label={item.status}
+                          {pageType !== "ONSITE" && (
+                            <TableCell
                               sx={{
-                                borderRadius: "4px",
-                                height: "22px",
-                                color: statusColor[item.status]?.color,
-                                backgroundColor:
-                                  statusColor[item.status]?.backgroundColor,
-                                fontSize: "12px",
+                                width: "192px",
+                                "& .MuiChip-root": {
+                                  verticalAlign: "baseline",
+                                },
                               }}
-                            />
-                          </TableCell>
+                            >
+                              <Chip
+                                icon={
+                                  <FiberManualRecord
+                                    sx={{
+                                      width: "8px",
+                                      "&.MuiChip-icon": {
+                                        color: statusColor[item.status]?.color,
+                                      },
+                                    }}
+                                  />
+                                }
+                                label={item.status}
+                                sx={{
+                                  borderRadius: "4px",
+                                  height: "22px",
+                                  color: statusColor[item.status]?.color,
+                                  backgroundColor:
+                                    statusColor[item.status]?.backgroundColor,
+                                  fontSize: "12px",
+                                }}
+                              />
+                            </TableCell>
+                          )}
                         </TableRow>
                       );
                     })}

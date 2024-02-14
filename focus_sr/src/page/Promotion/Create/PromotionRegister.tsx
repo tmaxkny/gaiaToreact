@@ -36,19 +36,62 @@ const PromotionRegister: React.FC<any> = React.forwardRef<any, any>(
       src: string;
     };
 
+    type templateType = {
+      CONTENTTITLE: string;
+      CONTENT: string;
+      CTA: string;
+      CTAFORM?: string;
+      URL: string;
+    };
+    const TEMPLATE: { [key: string]: templateType } = {
+      Onsite: {
+        CONTENTTITLE: "오늘 구매하시면 할인 혜택이 있어요",
+        CONTENT: "오늘까지 사용가능한 크레딧 100,000원을 받아가세요",
+        CTA: "직접 기입",
+        CTAFORM: "크레딧 받으러 가기",
+        URL: "DBAS>HOME",
+      },
+      WAPL: {
+        CONTENTTITLE: "Tibero가 드리는 작은 선물이 도착했어요~!",
+        CONTENT:
+          "꽝 없는 뽑기 기계가 나타났어요 $(고객명)이 뽑게 될 혜택은 크레딧 or 이용권?",
+        CTA: "더 알아보기",
+        URL: "DBAS>HOME",
+      },
+      "E-mail": {
+        CONTENTTITLE: "Tibero7 신상품 출시 기념",
+        CONTENT: "콘텐츠 스튜디오에서 가져온 템플릿(TBD)",
+        CTA: "더 알아보기",
+        URL: "DBAS>HOME>상품/상세(Tibero)",
+      },
+    };
+    const template: string | null = "WAPL"; //템플릿 종류
+
     const [promotionName, setPromotionName] = React.useState(""); //프로모션 이름
-    const [media, setMedia] = React.useState("Onsite"); //매체
+    const [media, setMedia] = React.useState(template ? template : "Onsite"); //매체
     const [manager, setManager] = React.useState(""); //담당자
-    const [contentTitle, setContentTitle] = React.useState(""); //콘텐츠 제목
-    const [content, setContent] = React.useState(""); //콘텐츠
-    const [cta, setCta] = React.useState(""); //행동유도버튼
-    const [isAbleCtaForm, setIsAbleCtaForm] = React.useState(false); //행동유도버튼폼
-    const [ctaForm, setCtaForm] = React.useState(""); //행동유도버튼폼 내용
+    const [contentTitle, setContentTitle] = React.useState(
+      template ? TEMPLATE[template].CONTENTTITLE : ""
+    ); //콘텐츠 제목
+    const [content, setContent] = React.useState(
+      template ? TEMPLATE[template].CONTENT : ""
+    ); //콘텐츠
+    const [cta, setCta] = React.useState(
+      template ? TEMPLATE[template].CTA : ""
+    ); //행동유도버튼
+    const [isAbleCtaForm, setIsAbleCtaForm] = React.useState(
+      template === "Onsite" ? true : false
+    ); //행동유도버튼폼
+    const [ctaForm, setCtaForm] = React.useState(
+      template ? TEMPLATE[template].CTAFORM : ""
+    ); //행동유도버튼폼 내용
     const [selectUrl, setSelectUrl] = React.useState("HOME"); //도착 URL
     const [images, setImages] = React.useState<TImage[]>(); //image url
     const [openImageDialog, setOpenImageDialog] = React.useState(false);
     const [isPreview, setIsPreview] = React.useState(false);
-    const [previewType, setPreviewType] = React.useState("EMPTY"); //EMPTY || WAPL || EMAIL
+    const [previewType, setPreviewType] = React.useState(
+      template ? template : "EMPTY"
+    ); //EMPTY || WAPL || E-mail
 
     const mediaFormStyle = {
       margin: "0px",
@@ -113,7 +156,7 @@ const PromotionRegister: React.FC<any> = React.forwardRef<any, any>(
 
     const findPreviewType = () => {
       if (
-        !images &&
+        (!images || images?.length === 0) &&
         promotionName === "" &&
         contentTitle === "" &&
         cta === ""
@@ -121,13 +164,12 @@ const PromotionRegister: React.FC<any> = React.forwardRef<any, any>(
         setPreviewType("EMPTY");
       } else {
         if (media === "Onsite" || media === "WAPL") setPreviewType("WAPL");
-        else setPreviewType("EMAIL");
+        else setPreviewType("E-mail");
       }
     };
 
     React.useEffect(() => {
-      if (images && imageLimit < images.length) setOpenImageDialog(true);
-      else setOpenImageDialog(false);
+      setImages(undefined);
     }, [media]);
 
     if (!isPreview) {
@@ -796,38 +838,34 @@ const PromotionRegister: React.FC<any> = React.forwardRef<any, any>(
             open={openImageDialog}
             sx={{
               "& .MuiDialog-paper": {
-                width: "343px",
-                height: "190px",
+                width: "360px",
+                height: "172px",
                 bgcolor: "#FFFFFF",
                 borderRadius: "4px",
-                border: "1px solid #000",
-                boxShadow:
-                  "0px 10px 10px -5px rgba(15, 23, 42, 0.04), 0px 20px 25px -5px rgba(15, 23, 42, 0.10), 0px 0px 1px 0px rgba(15, 23, 42, 0.06)",
+                boxShadow: "0px 0px 20px 3px #0000001A;",
               },
             }}
           >
             <DialogTitle
               display="flex"
-              sx={{
-                padding: "24px",
-                boxSizing: "border-box",
-              }}
+              flexDirection="column"
+              sx={{ padding: "0px" }}
             >
-              <Stack gap="16px" justifyContent="center">
+              <Stack height="64px" justifyContent="center" alignItems="center">
                 <Typography
                   sx={{
-                    textAlign: "center",
-                    color: "#0F172A",
-                    fontSize: "16px",
-                    fontWeight: "700",
+                    color: "#202124",
+                    fontSize: "18px",
+                    fontWeight: "600",
                     lineHeight: "24px",
                   }}
                 >
                   알림
                 </Typography>
+              </Stack>
+              <Stack height="52px" alignItems="center">
                 <Typography
                   sx={{
-                    textAlign: "center",
                     color: "#0F172A",
                     fontSize: "14px",
                     fontWeight: "400",
@@ -841,7 +879,8 @@ const PromotionRegister: React.FC<any> = React.forwardRef<any, any>(
 
             <DialogActions
               sx={{
-                padding: "18px 24px 24px 24px",
+                height: "56px",
+                padding: "0px 24px 24px 24px",
                 boxSizing: "border-box",
               }}
             >
@@ -849,11 +888,12 @@ const PromotionRegister: React.FC<any> = React.forwardRef<any, any>(
                 sx={{
                   width: 1,
                   height: "36px",
-                  backgroundColor: "#0F172A",
-                  borderRadius: "2px",
+                  backgroundColor: "#1C64F2",
+                  borderRadius: "4px",
                   fontWeight: 600,
                   fontSize: "14px",
                   color: "#FFFFFF",
+                  lineHeight: "20px",
                 }}
                 onClick={() => {
                   setOpenImageDialog(false);
@@ -1172,7 +1212,7 @@ const PromotionRegister: React.FC<any> = React.forwardRef<any, any>(
           </>
         );
       }
-      if (previewType === "EMAIL") {
+      if (previewType === "E-mail") {
         return (
           <>
             <Stack

@@ -17,8 +17,8 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 const PromotionOption2: React.FC<any> = React.forwardRef<any, any>(
   ({ className, children }, ref) => {
-    const pageType = "WAPL";
-    const isOnSitePage = pageType === ("ONSITE" as string) ? true : false;
+    const pageType = "Onsite";
+    const isOnSitePage = pageType === ("Onsite" as string) ? true : false;
 
     type TTargetRange = {
       lowestValue: string;
@@ -31,28 +31,86 @@ const PromotionOption2: React.FC<any> = React.forwardRef<any, any>(
       isUp?: string; //'이상' or '이하'
     };
 
-    const [visit, setVisit] = React.useState<TSector>({
+    type templateType = {
+      CONTENTTITLE: string;
+      CONTENT: string;
+      CTA: string;
+      CTAFORM?: string;
+      URL: string;
+      VISIT?: TSector;
+      PURCHASEAMOUNT?: TSector;
+    };
+    const TEMPLATE: { [key: string]: templateType } = {
+      Onsite: {
+        CONTENTTITLE: "오늘 구매하시면 할인 혜택이 있어요",
+        CONTENT: "오늘까지 사용가능한 크레딧 100,000원을 받아가세요",
+        CTA: "직접 기입",
+        CTAFORM: "크레딧 받으러 가기",
+        URL: "DBAS>HOME",
+        VISIT: {
+          data: "3",
+          isRange: false,
+          isUp: "이상",
+        },
+        PURCHASEAMOUNT: {
+          data: "0",
+          isRange: false,
+          isUp: "이하",
+        },
+      },
+      WAPL: {
+        CONTENTTITLE: "Tibero가 드리는 작은 선물이 도착했어요~!",
+        CONTENT:
+          "꽝 없는 뽑기 기계가 나타났어요 $(고객명)이 뽑게 될 혜택은 크레딧 or 이용권?",
+        CTA: "더 알아보기",
+        URL: "DBAS>HOME",
+        VISIT: {
+          data: "1",
+          isRange: false,
+          isUp: "이상",
+        },
+      },
+      "E-mail": {
+        CONTENTTITLE: "Tibero7 신상품 출시 기념",
+        CONTENT: "콘텐츠 스튜디오에서 가져온 템플릿(TBD)",
+        CTA: "더 알아보기",
+        URL: "DBAS>HOME>상품/상세(Tibero)",
+        VISIT: {
+          data: "5",
+          isRange: false,
+          isUp: "이상",
+        },
+        PURCHASEAMOUNT: {
+          data: "5000000",
+          isRange: false,
+          isUp: "이상",
+        },
+      },
+    };
+    const template: string | null = "Onsite"; //템플릿 종류
+
+    const [visit, setVisit] = React.useState({
       data: "",
       isRange: false,
       isUp: "이상",
-    });
-    const [purchaseAmount, setPurchaseAmount] = React.useState<TSector>({
+    }); //방문횟수
+    const [purchaseAmount, setPurchaseAmount] = React.useState({
       data: "",
       isRange: false,
       isUp: "이상",
-    });
-    const [point, setPoint] = React.useState<TSector>({
+    }); //구매금액
+    const [point, setPoint] = React.useState({
       data: "",
       isRange: false,
       isUp: "이상",
-    });
+    }); //포인트 잔여량
     const [headCount, setHeadCount] = React.useState<TSector>({
       data: "",
       isRange: false,
       isUp: "이상",
-    });
-    const [sector, setSector] = React.useState("");
-    const [rank, setRank] = React.useState("");
+    }); //직원수
+    const [sector, setSector] = React.useState(""); //업종
+    const [rank, setRank] = React.useState(""); //직급
     const [isReserve, setIsReserve] = React.useState(""); //예약전송
     const [url, setUrl] = React.useState(""); //노출위치
 

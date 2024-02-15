@@ -37,8 +37,8 @@ const PromotionOption2: React.FC<any> = React.forwardRef<any, any>(
       CTA: string;
       CTAFORM?: string;
       URL: string;
-      VISIT?: TSector;
-      PURCHASEAMOUNT?: TSector;
+      VISIT: TSector;
+      PURCHASEAMOUNT: TSector;
     };
     const TEMPLATE: { [key: string]: templateType } = {
       Onsite: {
@@ -69,6 +69,11 @@ const PromotionOption2: React.FC<any> = React.forwardRef<any, any>(
           isRange: false,
           isUp: "이상",
         },
+        PURCHASEAMOUNT: {
+          data: "",
+          isRange: false,
+          isUp: "이상",
+        },
       },
       "E-mail": {
         CONTENTTITLE: "Tibero7 신상품 출시 기념",
@@ -87,19 +92,27 @@ const PromotionOption2: React.FC<any> = React.forwardRef<any, any>(
         },
       },
     };
-    const template: string | null = "Onsite"; //템플릿 종류
+    const template: string | null = null; //템플릿 종류
 
-    const [visit, setVisit] = React.useState({
-      data: "",
-      isRange: false,
-      isUp: "이상",
-    }); //방문횟수
-    const [purchaseAmount, setPurchaseAmount] = React.useState({
-      data: "",
-      isRange: false,
-      isUp: "이상",
-    }); //구매금액
-    const [point, setPoint] = React.useState({
+    const [visit, setVisit] = React.useState<TSector>(
+      template && TEMPLATE[template] && TEMPLATE[template].VISIT
+        ? TEMPLATE[template].VISIT
+        : {
+            data: "",
+            isRange: false,
+            isUp: "이상",
+          }
+    ); //방문횟수
+    const [purchaseAmount, setPurchaseAmount] = React.useState<TSector>(
+      template && TEMPLATE[template] && TEMPLATE[template].PURCHASEAMOUNT
+        ? TEMPLATE[template].PURCHASEAMOUNT
+        : {
+            data: "",
+            isRange: false,
+            isUp: "이상",
+          }
+    ); //구매금액
+    const [point, setPoint] = React.useState<TSector>({
       data: "",
       isRange: false,
       isUp: "이상",
@@ -264,12 +277,12 @@ const PromotionOption2: React.FC<any> = React.forwardRef<any, any>(
                         onChange={(e) => {
                           const value = e.target.value as string;
                           if (value === "특정 범위")
-                            setVisit((prev) => ({
+                            setVisit(() => ({
                               data: { lowestValue: "0", highestValue: "0" },
                               isRange: true,
                             }));
                           else
-                            setVisit((prev) => ({
+                            setVisit(() => ({
                               data: "0",
                               isRange: false,
                               isUp: "이상",
@@ -472,12 +485,12 @@ const PromotionOption2: React.FC<any> = React.forwardRef<any, any>(
                         onChange={(e) => {
                           const value = e.target.value as string;
                           if (value === "특정 범위")
-                            setPurchaseAmount((prev) => ({
+                            setPurchaseAmount(() => ({
                               data: { lowestValue: "0", highestValue: "0" },
                               isRange: true,
                             }));
                           else
-                            setPurchaseAmount((prev) => ({
+                            setPurchaseAmount(() => ({
                               data: "0",
                               isRange: false,
                               isUp: "이상",
@@ -688,12 +701,12 @@ const PromotionOption2: React.FC<any> = React.forwardRef<any, any>(
                         onChange={(e) => {
                           const value = e.target.value as string;
                           if (value === "특정 범위")
-                            setPoint((prev) => ({
+                            setPoint(() => ({
                               data: { lowestValue: "0", highestValue: "0" },
                               isRange: true,
                             }));
                           else
-                            setPoint((prev) => ({
+                            setPoint(() => ({
                               data: "0",
                               isRange: false,
                               isUp: "이상",
@@ -899,12 +912,12 @@ const PromotionOption2: React.FC<any> = React.forwardRef<any, any>(
                         onChange={(e) => {
                           const value = e.target.value as string;
                           if (value === "특정 범위")
-                            setHeadCount((prev) => ({
+                            setHeadCount(() => ({
                               data: { lowestValue: "0", highestValue: "0" },
                               isRange: true,
                             }));
                           else
-                            setHeadCount((prev) => ({
+                            setHeadCount(() => ({
                               data: "0",
                               isRange: false,
                               isUp: "이상",

@@ -40,7 +40,7 @@ const CommentForm: React.FC<any> = React.forwardRef<any, any>(
         } else {
           return null;
         }
-        evt.target.value = "";
+        evt.target.value = ""; 
       }
     };
 

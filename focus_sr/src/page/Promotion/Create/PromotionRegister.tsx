@@ -36,12 +36,25 @@ const PromotionRegister: React.FC<any> = React.forwardRef<any, any>(
       src: string;
     };
 
+    type TTargetRange = {
+      lowestValue: string;
+      highestValue: string;
+    };
+    type TTarget = string;
+    type TSector = {
+      data: TTargetRange | TTarget;
+      isRange: boolean;
+      isUp?: string; //'이상' or '이하'
+    };
+
     type templateType = {
       CONTENTTITLE: string;
       CONTENT: string;
       CTA: string;
       CTAFORM?: string;
       URL: string;
+      VISIT: TSector;
+      PURCHASEAMOUNT: TSector;
     };
     const TEMPLATE: { [key: string]: templateType } = {
       Onsite: {
@@ -50,6 +63,16 @@ const PromotionRegister: React.FC<any> = React.forwardRef<any, any>(
         CTA: "직접 기입",
         CTAFORM: "크레딧 받으러 가기",
         URL: "DBAS>HOME",
+        VISIT: {
+          data: "3",
+          isRange: false,
+          isUp: "이상",
+        },
+        PURCHASEAMOUNT: {
+          data: "0",
+          isRange: false,
+          isUp: "이하",
+        },
       },
       WAPL: {
         CONTENTTITLE: "Tibero가 드리는 작은 선물이 도착했어요~!",
@@ -57,15 +80,35 @@ const PromotionRegister: React.FC<any> = React.forwardRef<any, any>(
           "꽝 없는 뽑기 기계가 나타났어요 $(고객명)이 뽑게 될 혜택은 크레딧 or 이용권?",
         CTA: "더 알아보기",
         URL: "DBAS>HOME",
+        VISIT: {
+          data: "1",
+          isRange: false,
+          isUp: "이상",
+        },
+        PURCHASEAMOUNT: {
+          data: "",
+          isRange: false,
+          isUp: "이상",
+        },
       },
       "E-mail": {
         CONTENTTITLE: "Tibero7 신상품 출시 기념",
         CONTENT: "콘텐츠 스튜디오에서 가져온 템플릿(TBD)",
         CTA: "더 알아보기",
         URL: "DBAS>HOME>상품/상세(Tibero)",
+        VISIT: {
+          data: "5",
+          isRange: false,
+          isUp: "이상",
+        },
+        PURCHASEAMOUNT: {
+          data: "5000000",
+          isRange: false,
+          isUp: "이상",
+        },
       },
     };
-    const template: string | null = "WAPL"; //템플릿 종류
+    const template: string | null = null; //템플릿 종류
 
     const [promotionName, setPromotionName] = React.useState(""); //프로모션 이름
     const [media, setMedia] = React.useState(template ? template : "Onsite"); //매체
@@ -1246,7 +1289,10 @@ const PromotionRegister: React.FC<any> = React.forwardRef<any, any>(
               </Stack>
             </Stack>
             <Stack
-              sx={{ height: "calc(100vh - 80px)", backgroundColor: "#D1D5DB" }}
+              sx={{
+                minHeight: "calc(100vh - 80px)",
+                backgroundColor: "#D1D5DB",
+              }}
               justifyContent={"center"}
               alignItems={"center"}
             >

@@ -94,6 +94,7 @@ export const ManageDetailRight: React.FC<any> = React.forwardRef<any, any>(
       7: "문의 관리",
     };
 
+    const isMaster: number = 2; // 마스터: 0, 부마스터:1 운영진: 2 사원: 3
     const [switchChecked, setSwitchChecked] = React.useState(
       Array(8).fill(false)
     );
@@ -149,7 +150,7 @@ export const ManageDetailRight: React.FC<any> = React.forwardRef<any, any>(
                       >
                         {item}
                       </Typography>
-                    </Box> 
+                    </Box>
                   );
                 })}
             </Box>

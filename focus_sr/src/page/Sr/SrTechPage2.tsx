@@ -866,9 +866,7 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
                             },
                           }}
                         >
-                          <TableCell>
-                            <Checkbox />
-                          </TableCell>
+                          <TableCell></TableCell>
                           <TableCell>이름</TableCell>
                           <TableCell>이메일</TableCell>
                           <TableCell>등급</TableCell>

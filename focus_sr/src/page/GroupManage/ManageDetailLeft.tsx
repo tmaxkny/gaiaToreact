@@ -317,6 +317,7 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
                 }}
               >
                 <Typography
+                  textAlign="center"
                   fontWeight={600}
                   fontSize="18px"
                   color=" var(--character-title-85, rgba(0, 0, 0, 0.85)"
@@ -557,30 +558,46 @@ export const ManageDetailLeft: React.FC<any> = React.forwardRef<any, any>(
             },
           }}
         >
-          <DialogTitle display="flex">
-            <Stack gap="10px">
-              <Typography
-                fontWeight={600}
-                fontSize="18px"
-                color=" var(--character-title-85, rgba(0, 0, 0, 0.85)"
-                textAlign="center"
+          <DialogTitle display="flex" sx={{ padding: "0px" }}>
+            <Stack flex="1">
+              <Stack
+                sx={{
+                  alignItems: "center",
+                  padding: "30px 20px 10px 20px",
+                  boxSizing: "border-box",
+                }}
               >
-                {`${
-                  managerList.length > 0 &&
-                  detailManagerList[managerList[0]].name
-                }${managerList.length < 2 ? "" : "외 n명"}의 직무 그룹을 ‘${
-                  select === -1 ? "" : detailGroupList[select].title
-                }’로 변경`}
-              </Typography>
+                <Typography
+                  textAlign="center"
+                  fontWeight={600}
+                  fontSize="18px"
+                  color=" var(--character-title-85, rgba(0, 0, 0, 0.85)"
+                >
+                  {`${
+                    managerList.length > 0 &&
+                    detailManagerList[managerList[0]].name
+                  }${managerList.length < 2 ? "" : "외 n명"}의 직무 그룹을 ‘${
+                    select === -1 ? "" : detailGroupList[select].title
+                  }’로 변경`}
+                </Typography>
+              </Stack>
 
-              <Typography
-                fontWeight="400"
-                fontSize="14px"
-                color="#6B7280"
-                textAlign="center"
+              <Stack
+                sx={{
+                  alignItems: "center",
+                  padding: "0px 20px 32px 20px",
+                  boxSizing: "border-box",
+                }}
               >
-                {`해당 직무 그룹 목록에서 사라지며, 변경된 직무 그룹의 권한 설정값으로 즉시 적용됩니다.`}
-              </Typography>
+                <Typography
+                  fontWeight="400"
+                  fontSize="14px"
+                  color="#6B7280"
+                  textAlign="center"
+                >
+                  {`해당 직무 그룹 목록에서 사라지며, 변경된 직무 그룹의 권한 설정값으로 즉시 적용됩니다.`}
+                </Typography>
+              </Stack>
             </Stack>
           </DialogTitle>
 

@@ -18,6 +18,7 @@ import CancelIcon from "@mui/icons-material/Cancel";
 
 export const Manage: React.FC<any> = React.forwardRef<any, any>(
   ({ className, children, moveToDetail }, ref) => {
+    const isMaster: number = 0; // 마스터: 0, 부마스터:1 운연진: 2 사원: 3
     const [groupList, setGroupList] = React.useState([
       {
         id: 0,
@@ -64,7 +65,6 @@ export const Manage: React.FC<any> = React.forwardRef<any, any>(
     const [formAble, setFormAble] = React.useState(false); //새 직무그룹 추가를 누르면 생기는 폼
     const [formFocus, setFormFocus] = React.useState(false); //추가, 수정 폼에서 clear아이콘
     const [updateGroup, setUpdateGroup] = React.useState<number>();
-    const isMaster: number = 2; // 마스터: 0, 부마스터:1 운연진: 2 사원: 3
 
     const handleSelected = (idx: number) => {
       setSelect(idx);

@@ -24,7 +24,9 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const PromotionRegister: React.FC<any> = React.forwardRef<any, any>(
-  ({ className, children, moveToList, moveToNext }, ref) => {
+  ({ className, children, moveToList, moveToNext, template }, ref) => {
+    //const template: string | null = null;
+
     const imageLimitList: { [key: string]: number } = {
       Onsite: 1,
       WAPL: 3,
@@ -108,7 +110,6 @@ const PromotionRegister: React.FC<any> = React.forwardRef<any, any>(
         },
       },
     };
-    const template: string | null = null; //템플릿 종류
 
     const [promotionName, setPromotionName] = React.useState(""); //프로모션 이름
     const [media, setMedia] = React.useState(template ? template : "Onsite"); //매체

@@ -5,6 +5,7 @@ import KeyboardArrowUpOutlinedIcon from "@mui/icons-material/KeyboardArrowUpOutl
 
 export const ManageDetailRight: React.FC<any> = React.forwardRef<any, any>(
   ({ className, children }, ref) => {
+    const isMaster: number = 0; // 마스터: 0, 부마스터:1 운영진: 2 사원: 3
     const fakeMenu = ["고객 관리", "영업 관리", "프로모션 관리", "SR 관리"];
     type listType = {
       [key: string]: string[];
@@ -94,7 +95,6 @@ export const ManageDetailRight: React.FC<any> = React.forwardRef<any, any>(
       7: "문의 관리",
     };
 
-    const isMaster: number = 2; // 마스터: 0, 부마스터:1 운영진: 2 사원: 3
     const [switchChecked, setSwitchChecked] = React.useState(
       Array(8).fill(false)
     );

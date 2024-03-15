@@ -23,7 +23,7 @@ import BannerTable from "./page/Banner/BannerTable";
 function App() {
   return (
     <>
-      <BannerTable />
+      <PromotionDetail />
     </>
   );
 }

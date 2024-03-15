@@ -25,6 +25,14 @@ const BannerTable: React.FC<any> = React.forwardRef<any, any>(
     const [toggles, setToggles] = React.useState<number[]>([]);
     const [openImagePreview, setOpenImagePreview] = React.useState(false);
 
+    type ToggleProps = {
+      leftText?: string;
+      rightText?: string;
+      isToggleOn: boolean;
+      disabled?: boolean;
+      handleClick?: () => void;
+    };
+
     const headerCellStyle = {
       backgroundColor: "#F3F4F6",
       fontWeight: "600",
@@ -36,7 +44,7 @@ const BannerTable: React.FC<any> = React.forwardRef<any, any>(
 
     const cellStyle = {
       whiteSpace: "nowrap",
-      fontWeight: "600",
+      fontWeight: "400",
       boxSizing: "border-box",
       color: "#111928",
       fontSize: "14px",
@@ -178,11 +186,71 @@ const BannerTable: React.FC<any> = React.forwardRef<any, any>(
     const handleToggles = (idx: number) => {
       if (toggles.some((item) => item === idx)) {
         const newToggle = toggles.filter((item) => item !== idx);
-        setCheckboxs(newToggle);
+        setToggles(newToggle);
       } else {
         const newToggle = [...toggles, idx];
-        setCheckboxs(newToggle);
+        setToggles(newToggle);
       }
+    };
+
+    const Toggle = ({
+      leftText = "on",
+      rightText = "off",
+      isToggleOn,
+      disabled = false,
+      handleClick,
+    }: ToggleProps) => {
+      return (
+        <Stack
+          onClick={() => {
+            if (!disabled && handleClick) {
+              handleClick();
+            }
+          }}
+          sx={{
+            position: "relative",
+            justifyContent: "center",
+            width: "48px",
+            height: "22px",
+            backgroundColor: isToggleOn ? "#3F83F8" : "#E5E7EB",
+            borderRadius: "25px",
+            cursor: !disabled ? "pointer" : "default",
+            transition: "background-color 0.2s",
+
+            "&:before, &:after": {
+              position: "absolute",
+              fontSize: "11px",
+              fontWeight: "700",
+            },
+            "&:before": {
+              content: `'${leftText}'`,
+              color: "#FFFFFF",
+              left: "9px",
+              opacity: !isToggleOn ? 0 : 1,
+            },
+            "&:after": {
+              content: `'${rightText}'`,
+              color: "#4B5563",
+              right: "9px",
+              opacity: isToggleOn ? 0 : 1,
+            },
+          }}
+        >
+          <Box
+            sx={{
+              position: "absolute",
+              right: isToggleOn ? "2px" : "28px",
+              top: "2px",
+              width: "18px",
+              height: "18px",
+              backgroundColor: "#FFFFFF",
+              borderRadius: "25px",
+              zIndex: 999,
+              transition: "right 0.2s",
+            }}
+          />
+        </Stack>
+      );
     };
 
     return (
@@ -213,15 +281,15 @@ const BannerTable: React.FC<any> = React.forwardRef<any, any>(
               </TableHead>
               <TableBody sx={{ "& .MuiTableCell-root": { ...cellStyle } }}>
                 {dummyData &&
-                  dummyData.map((item) => {
+                  dummyData.map((item, idx) => {
                     return (
                       <TableRow key={item.id} onClick={moveToDetail}>
                         <TableCell>
                           <Checkbox
-                            checked={checkboxs.some((item) => item === item.id)}
+                            checked={checkboxs.some((check) => check === idx)}
                             onClick={(e) => {
                               e.stopPropagation();
-                              handleCheckbox(item.id);
+                              handleCheckbox(idx);
                             }}
                           />
                         </TableCell>
@@ -249,8 +317,19 @@ const BannerTable: React.FC<any> = React.forwardRef<any, any>(
                           </Typography>
                         </TableCell>
                         <TableCell
-                          onClick={() => handleToggles(item.id)}
-                        ></TableCell>
+                          onClick={(event) => {
+                            event.stopPropagation();
+                          }}
+                        >
+                          <Toggle
+                            isToggleOn={toggles.some(
+                              (toggle) => toggle === item.id
+                            )}
+                            handleClick={() => {
+                              handleToggles(item.id);
+                            }}
+                          />
+                        </TableCell>
                         <TableCell>{item.displayDuration}</TableCell>
                         <TableCell>{item.modifiedAt}</TableCell>
                       </TableRow>

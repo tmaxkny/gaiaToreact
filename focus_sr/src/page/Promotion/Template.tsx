@@ -3,6 +3,30 @@ import { Stack, Typography, Box } from "@mui/material";
 
 const Template: React.FC<any> = React.forwardRef<any, any>(
   ({ className, children, moveToCreate }, ref) => {
+    const dummyTemplates = [
+      {
+        promotionTemplateId: 0,
+        promotionTitle: "",
+        content: "",
+        iconSrc: "",
+        backgroundColor: "",
+      },
+      {
+        promotionTemplateId: 0,
+        promotionTitle: "",
+        content: "",
+        iconSrc: "",
+        backgroundColor: "",
+      },
+      {
+        promotionTemplateId: 0,
+        promotionTitle: "",
+        content: "",
+        iconSrc: "",
+        backgroundColor: "",
+      },
+    ];
+
     return (
       <div className={className} ref={ref}>
         {children}

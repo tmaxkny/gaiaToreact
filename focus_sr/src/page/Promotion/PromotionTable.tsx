@@ -93,6 +93,17 @@ const PromotionTable: React.FC<any> = React.forwardRef<any, any>(
       },
     };
 
+    const dateButtonStyle = {
+      minWidth: "74px",
+      padding: "10px 18px",
+      border: "1px solid #E5E7EB",
+      color: "#9CA3AF",
+      fontSize: "16px",
+      fontWeight: "600",
+      lineHeight: "26px",
+      borderRadius: "6px",
+    };
+
     const dummyData = [
       {
         promotionName: "202310101805",
@@ -194,73 +205,42 @@ const PromotionTable: React.FC<any> = React.forwardRef<any, any>(
               <Stack direction="row" sx={{ gap: "16px" }}>
                 <Button
                   sx={{
-                    width: "74px",
-                    padding: "10px 18px",
-                    border: "1px solid #E5E7EB",
-                    color: "#9CA3AF",
-                    fontSize: "16px",
-                    fontWeight: "600",
-                    lineHeight: "26px",
+                    ...dateButtonStyle,
                   }}
                 >
                   {`오늘`}
                 </Button>
                 <Button
                   sx={{
-                    padding: "10px 18px",
-                    border: "1px solid #E5E7EB",
-                    color: "#9CA3AF",
-                    fontSize: "16px",
-                    fontWeight: "600",
-                    lineHeight: "26px",
+                    ...dateButtonStyle,
                   }}
                 >
                   {`일주일`}
                 </Button>
                 <Button
                   sx={{
-                    padding: "10px 18px",
-                    border: "1px solid #E5E7EB",
-                    color: "#9CA3AF",
-                    fontSize: "16px",
-                    fontWeight: "600",
-                    lineHeight: "26px",
+                    ...dateButtonStyle,
                   }}
                 >
                   {`1개월`}
                 </Button>
                 <Button
                   sx={{
-                    padding: "10px 18px",
-                    border: "1px solid #E5E7EB",
-                    color: "#9CA3AF",
-                    fontSize: "16px",
-                    fontWeight: "600",
-                    lineHeight: "26px",
+                    ...dateButtonStyle,
                   }}
                 >
                   {`3개월`}
                 </Button>
                 <Button
                   sx={{
-                    padding: "10px 18px",
-                    border: "1px solid #E5E7EB",
-                    color: "#9CA3AF",
-                    fontSize: "16px",
-                    fontWeight: "600",
-                    lineHeight: "26px",
+                    ...dateButtonStyle,
                   }}
                 >
                   {`6개월`}
                 </Button>
                 <Button
                   sx={{
-                    padding: "10px 18px",
-                    border: "1px solid #E5E7EB",
-                    color: "#9CA3AF",
-                    fontSize: "16px",
-                    fontWeight: "600",
-                    lineHeight: "26px",
+                    ...dateButtonStyle,
                   }}
                 >
                   {`1년`}

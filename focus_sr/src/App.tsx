@@ -19,11 +19,16 @@ import BouncePosition from "./page/Promotion/Detail/BouncePosition";
 import PurchaseProduct from "./page/Promotion/Detail/PurchaseProduct";
 import SrTechPage2 from "./page/Sr/SrTechPage2";
 import BannerTable from "./page/Banner/BannerTable";
+import PromotionDashFilter from "./page/Promotion/Dashboard/PromotionDashFilter";
+import PromotionTable from "./page/Promotion/PromotionTable";
+import PromotionDashCard from "./page/Promotion/Dashboard/PromotionDashCard";
+import PromotionDashChart from "./page/Promotion/Dashboard/PromotionDashChart";
+import PromotionDashTable from "./page/Promotion/Dashboard/PromotionDashTable";
 
 function App() {
   return (
     <>
-      <PromotionDetail />
+      <PromotionDashTable />
     </>
   );
 }

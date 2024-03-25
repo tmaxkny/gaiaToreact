@@ -5,19 +5,20 @@ import {
   Link,
   Box,
   Stack,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
   Typography,
   Breadcrumbs,
+  Button,
 } from "@mui/material";
 import Home from "@mui/icons-material/Home";
 import Receipt from "@mui/icons-material/Receipt";
 import Print from "@mui/icons-material/Print";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import { EventObject } from "extractor/types";
-
+import SignalCellularAltIcon from "@mui/icons-material/SignalCellularAlt";
 import NavigateNext from "@mui/icons-material/NavigateNext";
+import ArrowCircleLeftRoundedIcon from "@mui/icons-material/ArrowCircleLeftRounded";
+import ArrowCircleRightRoundedIcon from "@mui/icons-material/ArrowCircleRightRounded";
+/* import { EventObject } from "extractor/types";
+
+
 const EventInfos: EventObject[] = [
   {
     Name: "onClick",
@@ -31,7 +32,7 @@ interface Props {
   className: string | undefined; // 조건 2-3
   propertyName: string;
 }
-
+ */
 const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
   const paymentInfo = {
     ID: "123456789104",
@@ -69,6 +70,12 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
     description: "상품설명",
     option: "T3 / 4vCPU / 32GB",
     plan: "Standard",
+  };
+
+  const paymentFontStyle = {
+    color: "#111928",
+    fontSize: "18px",
+    lineHeight: "24px",
   };
 
   const breadcrumbs = [
@@ -133,23 +140,24 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
   };
 
   return (
-    <Stack
-      sx={{
-        display: "flex",
-        overflow: "auto",
-      }}
-    >
+    <Stack>
       <Stack
         direction="row"
         justifyContent="space-between"
         alignItems="center"
         sx={{
-          height: "102px",
-          padding: "32px",
+          height: "80px",
+          padding: "24px 32px 24px 32px",
+          boxSizing: "border-box",
         }}
       >
         <Typography
-          sx={{ color: "#111928", fontWeight: "700", fontSize: "28px" }}
+          sx={{
+            color: "#111928",
+            fontWeight: "700",
+            fontSize: "24px",
+            lineHeight: "32px",
+          }}
         >
           세부 결제 내역
         </Typography>
@@ -169,21 +177,19 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
           </Breadcrumbs>
         </Stack>
       </Stack>
-      <Stack direction="column">
+      <Stack direction="column" padding="32px" gap="16px">
         <Stack
           direction="row"
           justifyContent="space-between"
           alignItems="center"
-          px="28px"
-          py="16px"
         >
           <Stack direction="row" alignItems="center">
             <Typography
               sx={{
-                color: "var(--gray-900, var(--light-icon-strong, #111928))",
+                color: "#111928",
                 fontSize: "24px",
                 fontWeight: 700,
-                lineHeight: "32px /* 133.333% */",
+                lineHeight: "32px",
               }}
             >
               결제
@@ -191,10 +197,10 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
             <Typography
               pl="16px"
               sx={{
-                color: "var(--gray-500, #6B7280)",
+                color: "#6B7280",
                 fontSize: "16px",
                 fontWeight: 400,
-                lineHeight: "24px /* 150% */",
+                lineHeight: "24px ",
               }}
             >
               결제 완료일: {paymentInfo.paymentAt}
@@ -207,7 +213,9 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
             borderRadius="6px"
             width="104px"
             height="30px"
-            bgcolor="var(--success-050, #F3FAF7)"
+            bgcolor="#F3FAF7"
+            padding="0px 4px"
+            boxSizing="border-box"
             gap="6px"
           >
             <Receipt
@@ -219,10 +227,10 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
             />
             <Typography
               sx={{
-                color: "var(--success-500, #0E9F6E)",
+                color: "#0E9F6E",
                 fontSize: "16px",
                 fontWeight: 600,
-                lineHeight: "26px /* 162.5% */",
+                lineHeight: "16px",
               }}
             >
               {paymentInfo.paymentStatus}
@@ -234,8 +242,6 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
           direction="row"
           justifyContent="space-between"
           alignItems="center"
-          px="28px"
-          py="16px"
         >
           <Stack
             direction="row"
@@ -253,21 +259,22 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
             <Typography>
               {paymentInfo.card.company} {paymentInfo.card.number}
             </Typography>
-            <Divider orientation="vertical" flexItem />
-            <Typography>결제방식</Typography>
           </Stack>
           <Box
+            width="206px"
+            height="44px"
             component="button"
             display="flex"
             alignItems="center"
             justifyContent="center"
             flexDirection="row"
-            p="8px 16px"
+            p="10px 18px"
             gap="4px"
-            borderRadius="4px"
-            border="1px solid var(--focus-blue-300, #A4CAFE)"
-            bgcolor="var(--Focus-White, #FFF)"
-            color="var(--focus-blue-600, #1C64F2)"
+            borderRadius="6px"
+            border="1px solid #76A9FA"
+            bgcolor="#FFFFFF"
+            color="#1C64F2"
+            whiteSpace="nowrap"
             onClick={() =>
               downloadFile(
                 "https://i.ibb.co/vcw0D9r/Kakao-Talk-20240130-165723238.jpg",
@@ -275,194 +282,461 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
               )
             }
           >
-            <Print
-              sx={{
-                width: "16px",
-                height: "16px",
-              }}
-            />
             <Typography
               sx={{
-                fontSize: "14px",
+                fontSize: "16px",
                 fontWeight: 600,
-                lineHeight: "20px /* 142.857% */",
+                lineHeight: "26px",
               }}
             >
               신용카드 매출전표 인쇄
             </Typography>
+            <Print
+              sx={{
+                width: "20px",
+                height: "20px",
+              }}
+            />
           </Box>
         </Stack>
       </Stack>
-      <Accordion>
-        <AccordionSummary
-          sx={{
-            height: "76px",
-            fontSize: "24px",
-            fontWeight: 700,
-            lineHeight: "32px /* 133.333% */",
-            background: "var(--gray-050, #F9FAFB)",
-            borderRadius: "10px",
-            "&:has(.Mui-expanded)": {
-              backgroundColor: "var(--gray-050, #EBF5FF)",
-              borderRadius: "10px 10px 0px 0px",
-            },
-            "& .Mui-expanded": {
-              color: "#1C64F2",
+      <Stack sx={{ padding: "0px 32px" }} gap="32px">
+        {/*결제정보 */}
+        <Stack gap="32px">
+          <Box display="flex" flexDirection="column" gap="24px">
+            <Box display="flex" flexDirection="row" gap="24px">
+              <Typography
+                sx={{
+                  width: "302px",
+                  fontWeight: "600",
+                  ...paymentFontStyle,
+                }}
+              >
+                결제번호
+              </Typography>
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "400",
+                }}
+              >
+                {"123451234"}
+              </Typography>
+            </Box>
+            <Box display="flex" flexDirection="row" gap="24px">
+              <Typography
+                sx={{
+                  width: "302px",
+                  fontWeight: "600",
+                  ...paymentFontStyle,
+                }}
+              >
+                청구기간
+              </Typography>
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "400",
+                }}
+              >
+                {"2024.02.01 ~ 2024.03.01"}
+              </Typography>
+            </Box>
+          </Box>
+          <Stack
+            sx={{
+              height: "352px",
               borderRadius: "10px",
-            },
-            padding: "16px 32px",
-            "& .MuiAccordionSummary-content": {
-              transition: "color 0.2s ease-in-out",
-              margin: 0,
-            },
-          }}
-          expandIcon={
-            <ExpandMore
-              sx={{
-                width: "24px",
-                height: "24px",
-                color: "var(--focus-blue-600, #1C64F2)",
-              }}
-            />
-          }
-        >
-          {paymentInfo.ID}
-        </AccordionSummary>
-        {/* <AccordionSummary>{paymentInfo.ID}</AccordionSummary> */}
-        <AccordionDetails>
-          <Stack direction="column" alignItems="stretch" gap="80px">
-            <Stack direction="column" p="32px" gap="40px">
-              <Stack
-                gap="24px"
+              border: "1px solid #E5E7EB",
+              padding: "32px",
+              boxSizing: "border-box",
+              gap: "24px",
+            }}
+          >
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+            >
+              <Typography
                 sx={{
-                  fontFamily: "Pretendard",
-                  fontSize: "20px",
-                  fontStyle: "normal",
+                  ...paymentFontStyle,
                   fontWeight: "600",
-                  lineHeight: "26px",
                 }}
               >
-                <Stack direction="row" justifyContent="space-between">
-                  <Typography>사용기간</Typography>
-                  <Typography>
-                    {usedData.startDate} - {usedData.endDate}
-                  </Typography>
-                </Stack>
-                <Stack direction="row" justifyContent="space-between">
-                  <Typography>사용시간</Typography>
-                  <Stack direction="row" gap="16px">
-                    <Typography>
-                      {usedData.hour}시간 {usedData.minute}분
-                    </Typography>
-                    <Divider orientation="vertical" flexItem />
-                    {usedData.increased === 1 ? (
-                      <Typography>
-                        전월 대비{" "}
-                        <span color="#1C64F2">{usedData.timeRatio}</span>% /{" "}
-                        <span color="#1C64F2">{usedData.increasedHour}</span>
-                        시간{" "}
-                        <span color="#1C64F2">{usedData.increasedMinute}</span>
-                        분
-                      </Typography>
-                    ) : (
-                      <Typography>
-                        전월 대비{" "}
-                        <span color="#E02424">{usedData.timeRatio}</span>% /{" "}
-                        <span color="#E02424">{usedData.increasedHour}</span>
-                        시간{" "}
-                        <span color="#E02424">{usedData.increasedMinute}</span>
-                        분
-                      </Typography>
-                    )}
-                  </Stack>
-                </Stack>
-                <Stack direction="row" justifyContent="space-between">
-                  <Typography>결제금액</Typography>
-                  <Stack direction="row" gap="16px">
-                    <Typography>{usedData.price}원</Typography>
-                    <Divider orientation="vertical" flexItem />
-                    <Typography>
-                      전월 대비{" "}
-                      <span color="#E02424">{usedData.priceRatio}</span>% /{" "}
-                      <span color="#1C64F2">{usedData.increasedPrice}</span>원
-                    </Typography>
-                  </Stack>
-                </Stack>
-              </Stack>
-              <Stack
-                gap="24px"
+                {"사용기간"}
+              </Typography>
+              <Typography
                 sx={{
-                  fontFamily: "Pretendard",
-                  fontSize: "20px",
-                  fontStyle: "normal",
-                  fontWeight: "600",
-                  lineHeight: "26px",
+                  ...paymentFontStyle,
+                  fontWeight: "500",
                 }}
               >
-                <Stack direction="row" justifyContent="space-between">
-                  <Typography>기본요금</Typography>
-                  <Typography>{planData.basicPlan} 원</Typography>
-                </Stack>
-                <Stack direction="row" justifyContent="space-between">
-                  <Typography>사용요금</Typography>
-                  <Typography>{planData.usedPrice} 원</Typography>
-                </Stack>
-                <Stack direction="row" justifyContent="space-between">
-                  <Typography>세금</Typography>
-                  <Typography>{planData.tax} 원</Typography>
-                </Stack>
-                <Stack direction="row" justifyContent="space-between">
-                  <Typography>크레딧 차감</Typography>
-                  <Typography>{planData.usedCredit} 원</Typography>
-                </Stack>
-              </Stack>
-              <Divider />
-              <Stack>
+                {"2024.02.01 ~ 2024.03.01"}
+              </Typography>
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+            >
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "600",
+                }}
+              >
+                {"총 결제 금액"}
+              </Typography>
+              <Box
+                display="flex"
+                flexDirection="row"
+                gap="8px"
+                alignItems="center"
+              >
                 <Typography
                   sx={{
-                    width: "100%",
-                    fontFamily: "Pretendard",
-                    fontSize: "24px",
-                    fontStyle: "normal",
-                    fontWeight: "700",
-                    lineHeight: "32px",
-                    marginBottom: "48px",
+                    ...paymentFontStyle,
+                    fontWeight: "500",
                   }}
                 >
-                  상품 정보
+                  {"89999999원"}
                 </Typography>
-                <Stack
-                  gap="24px"
+                <Divider
+                  orientation="vertical"
+                  variant="middle"
                   sx={{
-                    fontFamily: "Pretendard",
-                    fontSize: "20px",
-                    fontStyle: "normal",
-                    fontWeight: "600",
-                    lineHeight: "26px",
+                    height: "18px",
                   }}
-                >
-                  <Stack direction="row" justifyContent="space-between">
-                    <Typography>상품</Typography>
-                    <Typography>{itemData.name} 원</Typography>
-                  </Stack>
-                  <Stack direction="row" justifyContent="space-between">
-                    <Typography>상품 설명</Typography>
-                    <Typography>{itemData.description} 원</Typography>
-                  </Stack>
-                  <Stack direction="row" justifyContent="space-between">
-                    <Typography>옵션</Typography>
-                    <Typography>{itemData.option} 원</Typography>
-                  </Stack>
-                  <Stack direction="row" justifyContent="space-between">
-                    <Typography>요금제</Typography>
-                    <Typography>{itemData.plan}</Typography>
-                  </Stack>
-                </Stack>
-              </Stack>
-            </Stack>
+                />
+                <Box display="flex" flexDirection="row">
+                  <Typography
+                    sx={{
+                      ...paymentFontStyle,
+                      fontWeight: "500",
+                    }}
+                  >
+                    {"전월 대비"}
+                  </Typography>
+                  <Typography
+                    sx={{
+                      color: "#E02424",
+                      fontWeight: "500",
+                      fontSize: " 18px",
+                      lineHeight: "24px",
+                    }}
+                  >
+                    {"-99.00%"}
+                  </Typography>
+                </Box>
+              </Box>
+            </Box>
+            <Divider />
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+            >
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "600",
+                }}
+              >
+                {"기본료"}
+              </Typography>
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "500",
+                }}
+              >
+                {"345123"}원
+              </Typography>
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+            >
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "600",
+                }}
+              >
+                {"총 사용 금액"}
+              </Typography>
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "500",
+                }}
+              >
+                {"333322"}원
+              </Typography>
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+            >
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "600",
+                }}
+              >
+                {"할인 금액"}
+              </Typography>
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "500",
+                }}
+              >
+                {"99999"}원
+              </Typography>
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+            >
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "600",
+                }}
+              >
+                {"세금"}
+              </Typography>
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "500",
+                }}
+              >
+                {"234342"}원
+              </Typography>
+            </Box>
           </Stack>
-        </AccordionDetails>
-      </Accordion>
+        </Stack>
+        {/*구독상세정보 */}
+        <Stack sx={{ border: "1px solid #E5E7EB", borderRadius: "10px" }}>
+          <Stack
+            sx={{
+              flexDirection: "row",
+              height: "68px",
+              padding: "16px 32px 16px 32px",
+              borderBottom: "1px solid #E5E7EB",
+              boxSizing: "border-box",
+              bgcolor: "#E5E7EB",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            <Box
+              display="flex"
+              flexDirection="row"
+              alignItems="center"
+              gap="24px"
+            >
+              <Typography
+                sx={{
+                  color: "#111928",
+                  fontSize: "20px",
+                  fontWeight: "600",
+                  lineHeight: "26px",
+                }}
+              >
+                구독 상세정보
+              </Typography>
+              <Button
+                startIcon={
+                  <SignalCellularAltIcon
+                    sx={{ width: "16px", height: "16px", color: "#FFFFFF" }}
+                  />
+                }
+                endIcon={
+                  <NavigateNext
+                    sx={{ width: "16px", height: "16px", color: "#FFFFFF" }}
+                  />
+                }
+                sx={{
+                  width: "101px",
+                  height: "36px",
+                  borderRadius: "4px",
+                  backgroundColor: "#3F83F8",
+                  color: "#FFFFFF",
+                }}
+              >
+                미터링
+              </Button>
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="row"
+              gap="8px"
+              alignItems="center"
+            >
+              <ArrowCircleLeftRoundedIcon
+                sx={{
+                  width: "36px",
+                  height: "36px",
+                  color: "#FFFFFF",
+                }}
+              />
+              <ArrowCircleRightRoundedIcon
+                sx={{
+                  width: "36px",
+                  height: "36px",
+                  color: "#111928",
+                }}
+              />
+            </Box>
+          </Stack>
+          <Stack padding="32px"></Stack>
+        </Stack>
+        {/*상품정보 */}
+
+        <Stack sx={{ border: "1px solid #E5E7EB", borderRadius: "10px" }}>
+          <Stack
+            sx={{
+              height: "68px",
+              padding: "16px 32px 16px 32px",
+              borderBottom: "1px solid #E5E7EB",
+              boxSizing: "border-box",
+              bgcolor: "#E5E7EB",
+            }}
+          >
+            <Typography
+              sx={{
+                color: "#111928",
+                fontSize: "20px",
+                fontWeight: "600",
+                lineHeight: "26px",
+              }}
+            >
+              상품 정보
+            </Typography>
+          </Stack>
+          <Stack padding="32px" gap="24px">
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+            >
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "600",
+                }}
+              >
+                {"상품"}
+              </Typography>
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "500",
+                }}
+              >
+                {"Tibero 7, TAC"}
+              </Typography>
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+            >
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "600",
+                }}
+              >
+                {"상품 설명"}
+              </Typography>
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "500",
+                }}
+              >
+                {
+                  "{상품설명 상품설명 상품설명 상품설명 상품설명 상품설명 상품설명 상품설명}"
+                }
+              </Typography>
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+            >
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "600",
+                }}
+              >
+                {"옵션"}
+              </Typography>
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "500",
+                }}
+              >
+                {"T3 / 4vCPU / 32GB"}
+              </Typography>
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+            >
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "600",
+                }}
+              >
+                {"요금제"}
+              </Typography>
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "500",
+                }}
+              >
+                {"Standard"}
+              </Typography>
+            </Box>
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+            >
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "600",
+                }}
+              >
+                {"기타 옵션"}
+              </Typography>
+              <Typography
+                sx={{
+                  ...paymentFontStyle,
+                  fontWeight: "500",
+                }}
+              >
+                {"기타 옵션명"}
+              </Typography>
+            </Box>
+          </Stack>
+        </Stack>
+      </Stack>
     </Stack>
   );
 });

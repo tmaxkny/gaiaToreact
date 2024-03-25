@@ -19,9 +19,12 @@ import {
   DialogTitle,
   DialogActions,
   DialogContent,
+  Pagination,
+  Box,
 } from "@mui/material";
 import Home from "@mui/icons-material/Home";
 import Receipt from "@mui/icons-material/Receipt";
+import ClearIcon from "@mui/icons-material/Clear";
 
 import NavigateNext from "@mui/icons-material/NavigateNext";
 const EventInfos: EventObject[] = [
@@ -55,8 +58,27 @@ export const PaymentList = React.forwardRef<any, Props>(
     const [openDialog, setOpenDialog] = React.useState(false);
     const [openDialog2, setOpenDialog2] = React.useState(false);
     const [dialogId, setDialogId] = React.useState(0);
+    const [page, setPage] = React.useState(0);
 
-    const data = [
+    type paymentType = {
+      productInfo: {
+        productName: string;
+        usedDate: string;
+      };
+      paymentInfo: {
+        paymentId: number;
+        totalCost: number;
+        paymentAt: string;
+        refund: boolean;
+      };
+      refundInfo: {
+        productName: string;
+        usedDate: string;
+        planName: string;
+        planType: string;
+      } | null;
+    };
+    const data: paymentType[] = [
       {
         productInfo: {
           productName: "상품1",
@@ -68,6 +90,7 @@ export const PaymentList = React.forwardRef<any, Props>(
           paymentAt: "2023-12-31",
           refund: true,
         },
+        refundInfo: null,
       },
       {
         productInfo: {
@@ -116,6 +139,37 @@ export const PaymentList = React.forwardRef<any, Props>(
         "5천만원 초과",
       ],
       결제일: ["최근 순", "오래된 순"],
+    };
+
+    const dialogFontStyle = {
+      color: "#111928",
+      fontWeight: "500",
+      fontSize: "16px",
+      lineHeight: "26px",
+    };
+
+    const dialogBoxStyle = {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      height: "26px",
+    };
+
+    const handlePageChange = (
+      _event: React.ChangeEvent<unknown>,
+      currentPage: number
+    ) => {
+      setPage(currentPage);
+    };
+
+    const handleDialogContent = (
+      data: paymentType,
+      planType: string | undefined
+    ) => {
+      if (planType === "prepayment")
+        return `고객님의 ${data.productInfo.productName} 구독 취소 시 환불 받을 수 있는 금액은 ${data.paymentInfo.totalCost}원 입니다. 계속 진행 시, 환불 절차가 진행되며 더 이상 해당 상품 이용이 불가합니다. 내용에 동의하고 계속 진행하시겠습니까?`;
+      if (planType === "postpayment")
+        return `현재까지 ${data.productInfo.productName} 사용에 따른 사용금액은 ${data.paymentInfo.totalCost}원 입니다. 사용금액 정산 후 구독취소가 정상적으로 진행됩니다. 내용에 동의하고 계속 진행하시겠습니까?`;
     };
 
     const breadcrumbs = [
@@ -385,18 +439,38 @@ export const PaymentList = React.forwardRef<any, Props>(
               alignItems: "center",
             }}
           >
-            {/* <Pagination
-                        sx={{
-                            '& .css-10w330c-MuiButtonBase-root-MuiPaginationItem-root.Mui-selected': {
-                                backgroundColor: '#EBF5FF',
-                                color: '#1C64F2',
-                            },
-                        }}
-                        count={data.length}
-                        shape="rounded"
-                        page={pageRequest.page}
-                        onChange={handlePagination}
-                    /> */}
+            <Pagination
+              count={10}
+              page={page}
+              onChange={handlePageChange}
+              sx={{
+                width: "100%",
+                height: "82px",
+                display: "flex",
+                justifyContent: "center",
+                "& .MuiPaginationItem-icon": {
+                  width: "20px",
+                  height: "20px",
+                },
+                "& .MuiPaginationItem-root": {
+                  m: "0px 6px",
+                  color: "#4B5563",
+                  "&.Mui-disabled": { color: "#111928" },
+                },
+                "& .MuiPaginationItem-page": {
+                  borderRadius: "4px",
+                  fontWeight: "400",
+                  fontSize: "14px",
+                  color: "var(--gray-900, #111928)",
+                  "&.Mui-selected": {
+                    bgcolor:
+                      "var(--interaction-selected, rgba(63, 131, 248, 0.10))",
+                    color: "#1C64F2",
+                    ":hover": { bgcolor: "#EBF5FF" },
+                  },
+                },
+              }}
+            />
           </Stack>
 
           <Dialog
@@ -404,64 +478,148 @@ export const PaymentList = React.forwardRef<any, Props>(
             sx={{
               "& .MuiDialog-paper": {
                 width: "512px",
-                height: "484px",
                 bgcolor: "#FFFFFF",
               },
             }}
           >
-            <DialogTitle display="flex" sx={{ padding: "0px" }}>
-              <Stack height="88px" sx={{ padding: "32px 24px 32px 24px" }}>
+            <DialogTitle sx={{ padding: "0px" }}>
+              <Stack
+                flexDirection="row"
+                height="88px"
+                sx={{
+                  flex: 1,
+                  padding: "32px 24px 32px 24px",
+                  boxSizing: "border-box",
+                  justifyContent: "space-between",
+                }}
+              >
                 <Typography
-                  fontWeight={600}
-                  fontSize="18px"
-                  color="#202124"
-                  marginTop="30px"
+                  sx={{
+                    fontWeight: "600",
+                    fontSize: "18px",
+                    color: "#202124",
+                    height: "24px",
+                  }}
                 >
-                  처리 완료
+                  구독 취소 확인
                 </Typography>
+                <ClearIcon
+                  onClick={() => {
+                    setOpenDialog(false);
+                  }}
+                  sx={{ width: "24px", height: "24px" }}
+                />
               </Stack>
             </DialogTitle>
+            <DialogContent sx={{ padding: "0px" }}>
+              <Stack
+                sx={{
+                  height: "294px",
+                  padding: "0px 24px 0px 24px",
+                  gap: "24px",
+                  boxSizing: "border-box",
+                }}
+              >
+                <Stack
+                  sx={{
+                    height: "192px",
+                    backgroundColor: "#F9FAFB",
+                    border: "1px solid #E5E7EB",
+                    padding: "20px 16px 20px 16px",
+                    boxSizing: "border-box",
+                    gap: "16px",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      ...dialogBoxStyle,
+                    }}
+                  >
+                    <Typography sx={{ ...dialogFontStyle }}>상품명</Typography>
+                    <Typography sx={{ ...dialogFontStyle }}>
+                      {data[dialogId].productInfo.productName}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      ...dialogBoxStyle,
+                    }}
+                  >
+                    <Typography sx={{ ...dialogFontStyle }}>
+                      사용기간
+                    </Typography>
+                    <Typography sx={{ ...dialogFontStyle }}>
+                      {data[dialogId].refundInfo?.usedDate}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      ...dialogBoxStyle,
+                    }}
+                  >
+                    <Typography sx={{ ...dialogFontStyle }}>
+                      요금제명
+                    </Typography>
+                    <Typography sx={{ ...dialogFontStyle }}>
+                      {data[dialogId].refundInfo?.planName}
+                    </Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      ...dialogBoxStyle,
+                    }}
+                  >
+                    <Typography sx={{ ...dialogFontStyle }}>
+                      요금제 유형
+                    </Typography>
+                    <Typography sx={{ ...dialogFontStyle }}>
+                      {data[dialogId].refundInfo?.planName}
+                    </Typography>
+                  </Box>
+                </Stack>
+                <Typography
+                  sx={{
+                    color: "#1F2A37",
+                    fontSize: "16px",
+                    fontWeight: "400",
+                    lineHeight: "26px",
+                  }}
+                >
+                  {data[dialogId].refundInfo &&
+                    handleDialogContent(
+                      data[dialogId],
+                      data[dialogId].refundInfo?.planType
+                    )}
+                </Typography>
+              </Stack>
+            </DialogContent>
 
             <DialogActions
               sx={{
                 flex: 1,
-                padding: "0px 20px 20px 20px",
-                height: "56px",
+                height: "102px",
+                padding: "32px 24px 32px 24px",
                 boxSizing: "border-box",
+                justifyContent: "center",
               }}
             >
               <Button
                 sx={{
-                  width: "154px",
-                  height: "36px",
-                  bgcolor: "#F9FAFB",
-                  borderRadius: "6px",
-                  boxShadow: "0 0 0 1px #D1D5DB inset",
-                  fontWeight: 600,
-                  fontSize: "14px",
-                  color: "#374151",
-                }}
-                onClick={() => {
-                  setOpenDialog(false);
-                }}
-              >
-                취소
-              </Button>
-              <Button
-                sx={{
-                  width: "154px",
-                  height: "36px",
-                  bgcolor: "#1C64F2",
+                  width: "464px",
+                  height: "38px",
+                  bgcolor: "#3F83F8",
                   borderRadius: "6px",
                   fontWeight: 600,
                   fontSize: "14px",
                   color: "#FFFFFF",
+                  padding: "10px 76px 10px 76px",
+                  boxSizing: "border-box",
                 }}
                 onClick={() => {
-                  setOpenDialog(false);
+                  setOpenDialog2(true);
                 }}
               >
-                확인
+                계속 진행
               </Button>
             </DialogActions>
           </Dialog>
@@ -527,6 +685,7 @@ export const PaymentList = React.forwardRef<any, Props>(
                   color: "#FFFFFF",
                 }}
                 onClick={() => {
+                  setOpenDialog(false);
                   setOpenDialog2(false);
                 }}
               >

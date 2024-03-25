@@ -139,6 +139,18 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
     }
   };
 
+  type CardProps = {
+    title: string;
+    option1: string;
+    option2: string;
+    option3: string;
+    amount: string;
+  };
+
+  const Card = ({ title, option1, option2, opttion3, amount }: CardProps) => {
+    return <Stack></Stack>;
+  };
+
   return (
     <Stack>
       <Stack

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Stack, Typography, Box, Divider, SvgIcon } from "@mui/material";
+import { Stack, Typography, Divider, SvgIcon } from "@mui/material";
 
 const PromotionDashChart: React.FC<any> = React.forwardRef<any, any>(
   ({ className, children }, ref) => {

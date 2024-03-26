@@ -44,7 +44,7 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
     },
   };
 
-  const usedData = {
+  /*  const usedData = {
     startDate: "2023.09.01",
     endDate: "2023.10.01",
     hour: "123",
@@ -70,7 +70,7 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
     description: "상품설명",
     option: "T3 / 4vCPU / 32GB",
     plan: "Standard",
-  };
+  }; */
 
   const paymentFontStyle = {
     color: "#111928",
@@ -139,6 +139,12 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
     }
   };
 
+  const cardFontStyle = {
+    color: "#1F2A37",
+    fontSize: "16px",
+    lineHeight: "26px",
+  };
+
   type CardProps = {
     title: string;
     option1: string;
@@ -147,8 +153,178 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
     amount: string;
   };
 
-  const Card = ({ title, option1, option2, opttion3, amount }: CardProps) => {
-    return <Stack></Stack>;
+  const cardData: CardProps[] = [
+    {
+      title: "구매 조건",
+      option1: "옵션 구성1",
+      option2: "옵션 구성2",
+      option3: "옵션 구성3",
+      amount: "999999",
+    },
+    {
+      title: "구매 조건",
+      option1: "옵션 구성1",
+      option2: "옵션 구성2",
+      option3: "옵션 구성3",
+      amount: "999999",
+    },
+    {
+      title: "구매 조건",
+      option1: "옵션 구성1",
+      option2: "옵션 구성2",
+      option3: "옵션 구성3",
+      amount: "999999",
+    },
+    {
+      title: "구매 조건",
+      option1: "옵션 구성1",
+      option2: "옵션 구성2",
+      option3: "옵션 구성3",
+      amount: "999999",
+    },
+    {
+      title: "구매 조건",
+      option1: "옵션 구성1",
+      option2: "옵션 구성2",
+      option3: "옵션 구성3",
+      amount: "999999",
+    },
+    {
+      title: "구매 조건",
+      option1: "옵션 구성1",
+      option2: "옵션 구성2",
+      option3: "옵션 구성3",
+      amount: "999999",
+    },
+  ];
+
+  //캐러셀
+  const carouselRef = React.useRef<HTMLDivElement>(null);
+  const [currIndex, setCurrIndex] = React.useState(1);
+  const TRANSITION_TIME = 500;
+  React.useEffect(() => {
+    if (carouselRef.current) {
+      carouselRef.current.style.transform = `translateX(${
+        -(currIndex - 1) * 384
+      }px)`;
+    }
+  }, [currIndex]);
+
+  const Card = ({ title, option1, option2, option3, amount }: CardProps) => {
+    return (
+      <Box
+        sx={{
+          minWidth: "384px",
+          height: "272px",
+          border: "1px solid #E5E7EB",
+          bgcolor: "#F9FAFB",
+          padding: "24px",
+          transition: `all ${TRANSITION_TIME}ms`,
+        }}
+      >
+        <Typography
+          sx={{
+            color: "#111928",
+            fontSize: "18px",
+            fontWeight: "600",
+            marginBottom: "24px",
+          }}
+        >
+          {title}
+        </Typography>
+        <Divider orientation="horizontal" sx={{ marginBottom: "24px" }} />
+        <Stack gap="16px">
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="space-between"
+          >
+            <Typography
+              sx={{
+                ...cardFontStyle,
+                fontWeight: "600",
+              }}
+            >
+              옵션구성1
+            </Typography>
+            <Typography
+              sx={{
+                ...cardFontStyle,
+                fontWeight: "400",
+              }}
+            >
+              {option1}
+            </Typography>
+          </Box>
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="space-between"
+          >
+            <Typography
+              sx={{
+                ...cardFontStyle,
+                fontWeight: "600",
+              }}
+            >
+              옵션 구성2
+            </Typography>
+            <Typography
+              sx={{
+                ...cardFontStyle,
+                fontWeight: "400",
+              }}
+            >
+              {option2}
+            </Typography>
+          </Box>
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="space-between"
+          >
+            <Typography
+              sx={{
+                ...cardFontStyle,
+                fontWeight: "600",
+              }}
+            >
+              옵션 구성3
+            </Typography>
+            <Typography
+              sx={{
+                ...cardFontStyle,
+                fontWeight: "400",
+              }}
+            >
+              {option3}
+            </Typography>
+          </Box>
+          <Box
+            display="flex"
+            flexDirection="row"
+            justifyContent="space-between"
+          >
+            <Typography
+              sx={{
+                ...cardFontStyle,
+                fontWeight: "600",
+              }}
+            >
+              사용 금액
+            </Typography>
+            <Typography
+              sx={{
+                ...cardFontStyle,
+                fontWeight: "400",
+              }}
+            >
+              {amount}원
+            </Typography>
+          </Box>
+        </Stack>
+      </Box>
+    );
   };
 
   return (
@@ -312,7 +488,7 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
           </Box>
         </Stack>
       </Stack>
-      <Stack sx={{ padding: "0px 32px" }} gap="32px">
+      <Stack sx={{ padding: "0px 32px 80px 32px" }} gap="32px">
         {/*결제정보 */}
         <Stack gap="32px">
           <Box display="flex" flexDirection="column" gap="24px">
@@ -535,9 +711,17 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
           </Stack>
         </Stack>
         {/*구독상세정보 */}
-        <Stack sx={{ border: "1px solid #E5E7EB", borderRadius: "10px" }}>
+        <Stack
+          sx={{
+            border: "1px solid #E5E7EB",
+            borderRadius: "10px",
+            flex: 1,
+            overflow: "hidden",
+          }}
+        >
           <Stack
             sx={{
+              flex: 1,
               flexDirection: "row",
               height: "68px",
               padding: "16px 32px 16px 32px",
@@ -598,6 +782,9 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
                   height: "36px",
                   color: "#FFFFFF",
                 }}
+                onClick={() => {
+                  setCurrIndex((prev) => prev - 1);
+                }}
               />
               <ArrowCircleRightRoundedIcon
                 sx={{
@@ -605,10 +792,34 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
                   height: "36px",
                   color: "#111928",
                 }}
+                onClick={() => {
+                  setCurrIndex((prev) => prev + 1);
+                }}
               />
             </Box>
           </Stack>
-          <Stack padding="32px"></Stack>
+          <Stack
+            ref={carouselRef}
+            padding="32px"
+            flexDirection="row"
+            gap="32px"
+            sx={{
+              flex: 1,
+              transition: `all ${TRANSITION_TIME}ms`,
+              overflow: "hidden",
+            }}
+          >
+            {cardData.map((data, idx) => (
+              <Card
+                key={idx}
+                title={data.title}
+                option1={data.option1}
+                option2={data.option2}
+                option3={data.option3}
+                amount={data.amount}
+              />
+            ))}
+          </Stack>
         </Stack>
         {/*상품정보 */}
 

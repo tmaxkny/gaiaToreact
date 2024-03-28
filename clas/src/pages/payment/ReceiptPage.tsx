@@ -184,6 +184,7 @@ const ReceiptPage = React.forwardRef<any, Props>(({ className }, ref) => {
           {`에서 확인하실 수 있습니다.`}
         </Typography>
         <Box
+          alignSelf="end"
           width="148px"
           height="44px"
           component="button"

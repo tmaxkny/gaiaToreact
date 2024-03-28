@@ -783,7 +783,7 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
                   color: "#FFFFFF",
                 }}
                 onClick={() => {
-                  setCurrIndex((prev) => prev - 1);
+                  if (currIndex > 1) setCurrIndex((prev) => prev - 1);
                 }}
               />
               <ArrowCircleRightRoundedIcon
@@ -793,7 +793,8 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
                   color: "#111928",
                 }}
                 onClick={() => {
-                  setCurrIndex((prev) => prev + 1);
+                  if (currIndex < cardData.length - 1)
+                    setCurrIndex((prev) => prev + 1);
                 }}
               />
             </Box>

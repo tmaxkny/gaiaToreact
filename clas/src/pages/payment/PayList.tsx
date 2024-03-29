@@ -69,7 +69,6 @@ export const PaymentList = React.forwardRef<any, Props>(
         paymentId: number;
         totalCost: number;
         paymentAt: string;
-        refund: boolean;
       };
       refundInfo: {
         productName: string;
@@ -88,7 +87,6 @@ export const PaymentList = React.forwardRef<any, Props>(
           paymentId: 1,
           totalCost: 10000,
           paymentAt: "2023-12-31",
-          refund: true,
         },
         refundInfo: null,
       },
@@ -101,7 +99,6 @@ export const PaymentList = React.forwardRef<any, Props>(
           paymentId: 1,
           totalCost: 10000,
           paymentAt: "2023-12-31",
-          refund: true,
         },
         refundInfo: {
           productName: "상품1",
@@ -119,7 +116,52 @@ export const PaymentList = React.forwardRef<any, Props>(
           paymentId: 1,
           totalCost: 10000,
           paymentAt: "2023-12-31",
-          refund: true,
+        },
+        refundInfo: {
+          productName: "상품1",
+          usedDate: "2024.03.15 ~ 2024.05.15",
+          planName: "Standard",
+          planType: "postpayment",
+        },
+      },
+      {
+        productInfo: {
+          productName: "상품1",
+          usedDate: "2024.03.15 ~ 2024.05.15",
+        },
+        paymentInfo: {
+          paymentId: 1,
+          totalCost: 10000,
+          paymentAt: "2023-12-31",
+        },
+        refundInfo: null,
+      },
+      {
+        productInfo: {
+          productName: "상품1",
+          usedDate: "2024.03.15 ~ 2024.05.15",
+        },
+        paymentInfo: {
+          paymentId: 1,
+          totalCost: 10000,
+          paymentAt: "2023-12-31",
+        },
+        refundInfo: {
+          productName: "상품1",
+          usedDate: "2024.03.15 ~ 2024.05.15",
+          planName: "Standard",
+          planType: "prepayment",
+        },
+      },
+      {
+        productInfo: {
+          productName: "상품1",
+          usedDate: "2024.03.15 ~ 2024.05.15",
+        },
+        paymentInfo: {
+          paymentId: 1,
+          totalCost: 10000,
+          paymentAt: "2023-12-31",
         },
         refundInfo: {
           productName: "상품1",
@@ -197,10 +239,13 @@ export const PaymentList = React.forwardRef<any, Props>(
       >
         <Stack>
           <Stack
-            height="102px"
-            padding="32px"
+            height="80px"
+            padding="24px 32px"
             direction="row"
             justifyContent="space-between"
+            alignItems="center"
+            borderBottom="1px solid #E5E7EB"
+            boxSizing="border-box"
           >
             <Typography
               sx={{
@@ -224,6 +269,7 @@ export const PaymentList = React.forwardRef<any, Props>(
           <Stack
             direction="row"
             sx={{
+              mt: "32px",
               ml: "auto",
               mb: "24px",
               minWidth: "302px",
@@ -395,7 +441,7 @@ export const PaymentList = React.forwardRef<any, Props>(
                               영수증
                             </Typography>
                           </Button>
-                          {body.paymentInfo.refund && (
+                          {body.refundInfo && (
                             <Button
                               onClick={() => {
                                 setOpenDialog(true);
@@ -645,7 +691,7 @@ export const PaymentList = React.forwardRef<any, Props>(
                 }}
               >
                 <Typography fontWeight={600} fontSize="18px" color="#111928">
-                  처리 완료
+                  {`${data[dialogId].productInfo.productName}을 이용해주셔서 감사합니다.`}
                 </Typography>
               </Stack>
             </DialogTitle>

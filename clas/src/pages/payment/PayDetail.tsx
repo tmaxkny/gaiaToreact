@@ -219,7 +219,6 @@ const PayDetail = React.forwardRef<any, Props>(({ className }, ref) => {
           border: "1px solid #E5E7EB",
           bgcolor: "#F9FAFB",
           padding: "24px",
-          transition: `all ${TRANSITION_TIME}ms`,
         }}
       >
         <Typography

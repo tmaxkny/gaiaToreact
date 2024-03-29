@@ -6,7 +6,7 @@ import ReceiptPage from "./pages/payment/ReceiptPage";
 function App() {
   return (
     <>
-      <PaymentList />
+      <PayDetail />
     </>
   );
 }

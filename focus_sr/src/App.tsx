@@ -24,11 +24,17 @@ import PromotionTable from "./page/Promotion/PromotionTable";
 import PromotionDashCard from "./page/Promotion/Dashboard/PromotionDashCard";
 import PromotionDashChart from "./page/Promotion/Dashboard/PromotionDashChart";
 import PromotionDashTable from "./page/Promotion/Dashboard/PromotionDashTable";
+import Studio1 from "./page/Studio/Studio1";
+import Studio2 from "./page/Studio/Studio2";
+import Studio3 from "./page/Studio/Studio3";
+import Studio4 from "./page/Studio/Studio4";
+import Studio5 from "./page/Studio/Studio5";
+import Studio6 from "./page/Studio/Studio6";
 
 function App() {
   return (
     <>
-      <PromotionDashTable />
+      <Studio6 />
     </>
   );
 }

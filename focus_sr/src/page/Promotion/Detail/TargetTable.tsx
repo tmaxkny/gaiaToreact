@@ -226,7 +226,6 @@ const TargetTable: React.FC<any> = React.forwardRef<any, any>(
                 width: "16px",
               },
               "::-webkit-scrollbar-thumb": {
-                height: "68px",
                 background: "#D1D5DB",
                 borderRadius: "4px",
                 borderLeft: "5px solid white",

@@ -43,7 +43,7 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
     const [perPage, setperPage] = React.useState(10); //n개씩 보기
     const [error, setError] = React.useState("");
     const [manager, setManager] = React.useState<number>(-1); //drawer 체크한 매니저
-    const [managerListAll, setManagerListAll] = React.useState(false); //매니저 체크박스 all
+    //const [managerListAll, setManagerListAll] = React.useState(false); //매니저 체크박스 all
     const [finishButtonDiabled, setFinishButtonDiabled] = React.useState(true); //완료 버튼
     const [managerDeginateDisabled, setManagerDeginateDisabled] =
       React.useState(true); //담당자 지정 버튼
@@ -289,7 +289,7 @@ const SrTechPage2: React.FC<any> = React.forwardRef<any, any>(
       },
     ];
 
-    const managerLength = dummyData.length;
+    //const managerLength = dummyData.length;
 
     //테이블 관련 css
     const TheaderCellStyle = {
